@@ -1,12 +1,9 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { Layout } from './layout/layout.component';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [Layout],
   selector: 'loco-root',
-  styleUrl: './app.component.scss',
-  templateUrl: './app.component.html',
+  template: '<loco-layout />',
 })
-export class App {
-  protected readonly title = signal('wortschatz-trainer');
-}
+export class App {}

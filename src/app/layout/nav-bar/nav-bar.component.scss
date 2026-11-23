@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  min-height: 56px;
+}
+
+.title {
+  font: var(--mat-sys-title-large);
+}

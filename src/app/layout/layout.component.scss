@@ -1,0 +1,13 @@
+header,
+main {
+  padding-inline: max(24px, calc((100% - 1040px) / 2 + 24px));
+}
+
+header {
+  padding-top: 8px;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+main {
+  padding-block: 32px 64px;
+}

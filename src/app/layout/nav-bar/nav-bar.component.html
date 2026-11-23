@@ -1,8 +1,8 @@
 <div class="bar">
   <span class="title">Wortschatz-Trainer</span>
-  <mat-chip-set aria-label="Sprachpaar">
-    <mat-chip>Deutsch ⇄ Englisch</mat-chip>
-  </mat-chip-set>
+  <span class="language-pair">
+    {{ terms.sourceLanguage.name }} ⇄ {{ terms.targetLanguage.name }}
+  </span>
 </div>
 <nav mat-tab-nav-bar [tabPanel]="tabPanel()" mat-stretch-tabs="false" aria-label="Bereiche">
   @for (section of sections; track section.path) {

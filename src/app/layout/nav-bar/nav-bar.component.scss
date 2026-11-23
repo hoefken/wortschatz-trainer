@@ -14,3 +14,11 @@
 .title {
   font: var(--mat-sys-title-large);
 }
+
+.language-pair {
+  padding: 6px 16px;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: var(--mat-sys-corner-small);
+  font: var(--mat-sys-label-large);
+  color: var(--mat-sys-on-surface-variant);
+}

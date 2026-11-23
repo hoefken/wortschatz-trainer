@@ -1,0 +1,11 @@
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: min(400px, 70vw);
+}
+
+// The floating outline label sits above the field and would be clipped by the scrolling content area.
+mat-form-field:first-child {
+  margin-block-start: 8px;
+}

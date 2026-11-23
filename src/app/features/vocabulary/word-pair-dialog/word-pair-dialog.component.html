@@ -1,0 +1,19 @@
+<form [formRoot]="form">
+  <h2 mat-dialog-title>{{ isEdit ? 'Wortpaar bearbeiten' : 'Wortpaar hinzufügen' }}</h2>
+  <mat-dialog-content>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ terms.sourceLanguage.name }}</mat-label>
+      <input matInput [formField]="form.source" />
+      <mat-error>{{ form.source().errors()[0]?.message }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ terms.targetLanguage.name }}</mat-label>
+      <input matInput [formField]="form.target" />
+      <mat-error>{{ form.target().errors()[0]?.message }}</mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button matButton type="button" mat-dialog-close>Abbrechen</button>
+    <button matButton type="submit">{{ isEdit ? 'Speichern' : 'Hinzufügen' }}</button>
+  </mat-dialog-actions>
+</form>

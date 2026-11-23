@@ -1,0 +1,34 @@
+<table
+  mat-table
+  [dataSource]="rows()"
+  matSort
+  matSortActive="source"
+  matSortDirection="asc"
+  matSortDisableClear
+  (matSortChange)="sort.set($event)"
+>
+  <ng-container matColumnDef="source">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ terms.sourceLanguage.name }}</th>
+    <td mat-cell *matCellDef="let pair">{{ pair.source }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="target">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ terms.targetLanguage.name }}</th>
+    <td mat-cell *matCellDef="let pair">{{ pair.target }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+    <td mat-cell *matCellDef="let pair">
+      <button matIconButton [aria-label]="pair.source + ' bearbeiten'" (click)="edit.emit(pair)">
+        <mat-icon svgIcon="edit" />
+      </button>
+      <button matIconButton [aria-label]="pair.source + ' löschen'" (click)="remove.emit(pair)">
+        <mat-icon svgIcon="delete" />
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+  <tr mat-row *matRowDef="let row; columns: columns"></tr>
+</table>

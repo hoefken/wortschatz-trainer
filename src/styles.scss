@@ -24,6 +24,17 @@ body {
   height: 100%;
 }
 
+.danger {
+  @include mat.button-overrides(
+    (
+      filled-container-color: var(--mat-sys-error),
+      filled-label-text-color: var(--mat-sys-on-error),
+      outlined-label-text-color: var(--mat-sys-error),
+      outlined-outline-color: var(--mat-sys-error),
+    )
+  );
+}
+
 h1,
 h2 {
   margin: 0;

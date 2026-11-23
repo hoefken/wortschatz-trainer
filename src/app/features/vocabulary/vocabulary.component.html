@@ -1,1 +1,42 @@
-<h1>Wortliste</h1>
+@let count = terms.wordPairs().length;
+
+<header>
+  <div>
+    <h1>Wortliste</h1>
+    <p class="count">{{ count }} {{ count === 1 ? 'Wortpaar' : 'Wortpaare' }}</p>
+  </div>
+  <div class="actions">
+    @if (count > 0) {
+      <button matButton="tonal" [disabled]="!terms.canAddSamples()" (click)="terms.addSamples()">
+        <mat-icon svgIcon="playlist_add" />
+        Beispieldaten einfügen
+      </button>
+    }
+    <button matButton="outlined" class="danger" [disabled]="count === 0" (click)="reset()">
+      <mat-icon svgIcon="restart_alt" />
+      Alles zurücksetzen
+    </button>
+    <button matButton="filled" (click)="add()">
+      <mat-icon svgIcon="add" />
+      Hinzufügen
+    </button>
+  </div>
+</header>
+
+<section class="card">
+  @if (count > 0) {
+    <loco-word-pair-table (edit)="edit($event)" (remove)="remove($event)" />
+  } @else {
+    <div class="empty">
+      <h2>Noch keine Wortpaare</h2>
+      <p>
+        Lege dein erstes Wortpaar an – oder starte mit Beispieldaten, um Trainieren und Prüfung
+        direkt auszuprobieren.
+      </p>
+      <button matButton="filled" (click)="terms.addSamples()">
+        <mat-icon svgIcon="playlist_add" />
+        Beispieldaten einfügen
+      </button>
+    </div>
+  }
+</section>

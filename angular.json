@@ -64,6 +64,9 @@
             ],
             "security": {
               "autoCsp": true
+            },
+            "loader": {
+              ".svg": "text"
             }
           },
           "configurations": {

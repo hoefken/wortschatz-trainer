@@ -1,5 +1,6 @@
 import { computed, Service, signal } from '@angular/core';
 import { Language } from './language';
+import { isSameWord } from './same-word';
 import { SAMPLE_TERMS } from './sample-terms';
 import { Term, Translations } from './term';
 import { UnsavedWordPair, WordPair } from './word-pair';
@@ -54,8 +55,7 @@ export class TermService {
   }
 
   isDuplicate(source: string, exceptId?: string): boolean {
-    const word = normalize(source);
-    return this.wordPairs().some(pair => pair.id !== exceptId && normalize(pair.source) === word);
+    return this.wordPairs().some(pair => pair.id !== exceptId && isSameWord(pair.source, source));
   }
 
   private toTranslations({ source, target }: UnsavedWordPair): Translations {
@@ -64,8 +64,4 @@ export class TermService {
       [this.targetLanguage.code]: target.trim(),
     };
   }
-}
-
-function normalize(word: string): string {
-  return word.trim().toLocaleLowerCase();
 }

@@ -1,0 +1,102 @@
+import { TestBed } from '@angular/core/testing';
+import { TermService } from '../../terms/term.service';
+import { TrainingSession } from './training-session';
+
+describe('TrainingSession', () => {
+  let terms: TermService;
+  let session: TrainingSession;
+  let random: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    random = vi.spyOn(Math, 'random').mockReturnValue(0);
+    terms = TestBed.inject(TermService);
+    session = TestBed.inject(TrainingSession);
+  });
+
+  afterEach(() => {
+    random.mockRestore();
+  });
+
+  it('has no question without word pairs', () => {
+    expect(session.question()).toBeUndefined();
+  });
+
+  it('asks from the source language when the direction roll is low', () => {
+    random.mockReturnValueOnce(0).mockReturnValueOnce(0.2);
+    terms.add({ source: 'Haus', target: 'house' });
+
+    expect(session.question()).toEqual({
+      word: 'Haus',
+      solution: 'house',
+      from: terms.sourceLanguage,
+      to: terms.targetLanguage,
+    });
+  });
+
+  it('asks from the target language when the direction roll is high', () => {
+    random.mockReturnValueOnce(0).mockReturnValueOnce(0.7);
+    terms.add({ source: 'Haus', target: 'house' });
+
+    expect(session.question()).toMatchObject({ word: 'house', solution: 'Haus' });
+  });
+
+  it('accepts an answer ignoring case and surrounding spaces', () => {
+    terms.add({ source: 'Haus', target: 'house' });
+
+    session.check('  HOUSE ');
+
+    expect(session.result()).toEqual({ answer: 'HOUSE', correct: true });
+    expect(session.score()).toEqual({ correct: 1, wrong: 0 });
+  });
+
+  it('rejects a wrong answer and counts it once', () => {
+    terms.add({ source: 'Haus', target: 'house' });
+
+    session.check('home');
+    session.check('house');
+
+    expect(session.result()).toEqual({ answer: 'home', correct: false });
+    expect(session.score()).toEqual({ correct: 0, wrong: 1 });
+  });
+
+  it('never asks the same word pair twice in a row', () => {
+    terms.add({ source: 'Haus', target: 'house' });
+    terms.add({ source: 'Baum', target: 'tree' });
+    expect(session.question()?.word).toBe('Haus');
+
+    session.next();
+
+    expect(session.question()?.word).toBe('Baum');
+    expect(session.result()).toBeUndefined();
+  });
+
+  it('keeps asking the only word pair there is', () => {
+    terms.add({ source: 'Haus', target: 'house' });
+
+    session.next();
+
+    expect(session.question()?.word).toBe('Haus');
+  });
+
+  it('shows an edited word pair in the current question', () => {
+    terms.add({ source: 'Haus', target: 'house' });
+    const [{ id }] = terms.wordPairs();
+
+    terms.update({ id, source: 'Haus', target: 'home' });
+
+    expect(session.question()?.solution).toBe('home');
+  });
+
+  it('moves on when the asked word pair is deleted', () => {
+    terms.add({ source: 'Haus', target: 'house' });
+    terms.add({ source: 'Baum', target: 'tree' });
+    session.check('house');
+    const [{ id }] = terms.wordPairs();
+
+    terms.remove(id);
+
+    expect(session.question()?.word).toBe('Baum');
+    expect(session.result()).toBeUndefined();
+    expect(session.score()).toEqual({ correct: 1, wrong: 0 });
+  });
+});

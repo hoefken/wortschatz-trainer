@@ -1,1 +1,91 @@
-<h1>Trainieren</h1>
+@let question = session.question();
+@let result = session.result();
+
+<header>
+  <div>
+    <h1>Trainieren</h1>
+    <p class="subtitle">Freies Üben ohne Bewertung. Die Richtung wechselt zufällig.</p>
+  </div>
+  @if (question) {
+    <p class="score">
+      <span class="correct"><mat-icon svgIcon="check" />{{ session.score().correct }} richtig</span>
+      <span class="wrong"><mat-icon svgIcon="close" />{{ session.score().wrong }} falsch</span>
+    </p>
+  }
+</header>
+
+<section class="card">
+  @if (question) {
+    <form [formRoot]="form">
+      <p class="direction">
+        {{ question.from.name }} <mat-icon svgIcon="arrow_forward" /> {{ question.to.name }}
+      </p>
+      <div id="question">
+        <p class="prompt">Wie heißt das auf {{ question.to.name }}?</p>
+        <h2 class="word" [lang]="question.from.code">{{ question.word }}</h2>
+      </div>
+      <mat-form-field
+        appearance="outline"
+        hideRequiredMarker
+        [class.wrong-answer]="result?.correct === false"
+      >
+        <mat-label>Deine Antwort</mat-label>
+        <input
+          matInput
+          [formField]="form.answer"
+          [lang]="question.to.code"
+          placeholder="Übersetzung eingeben"
+          aria-describedby="question"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+        <mat-error>{{ form.answer().errors()[0]?.message }}</mat-error>
+      </mat-form-field>
+      <div role="status">
+        @if (result?.correct === true) {
+          <div class="feedback correct">
+            <mat-icon svgIcon="check_circle" />
+            <div>
+              <p class="title">Richtig!</p>
+              <p>{{ question.word }} = {{ question.solution }}</p>
+            </div>
+          </div>
+        } @else if (result?.correct === false) {
+          <div class="feedback wrong">
+            <mat-icon svgIcon="cancel" />
+            <div>
+              <p class="title">Leider falsch.</p>
+              <p>
+                Deine Antwort: <s>{{ result?.answer }}</s>
+              </p>
+              <p class="solution">
+                Richtig: <strong [lang]="question.to.code">{{ question.solution }}</strong>
+              </p>
+            </div>
+          </div>
+        }
+      </div>
+      <div class="actions">
+        <span class="hint">{{ result ? 'Enter – weiter' : 'Enter prüft' }}</span>
+        @if (result) {
+          <button matButton="filled" type="submit">
+            Weiter
+            <mat-icon svgIcon="arrow_forward" iconPositionEnd />
+          </button>
+        } @else {
+          <button matButton="filled" type="submit">Prüfen</button>
+        }
+      </div>
+    </form>
+  } @else {
+    <div class="empty">
+      <h2>Noch keine Wörter zum Üben</h2>
+      <p>
+        Erfasse zuerst ein paar Wortpaare – oder füge dort Beispieldaten ein. Danach geht es hier
+        los.
+      </p>
+      <a matButton="filled" routerLink="/vocabulary">Zu „Erfassen“</a>
+    </div>
+  }
+</section>

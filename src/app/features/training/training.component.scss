@@ -1,0 +1,174 @@
+@use '@angular/material' as mat;
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-block-end: 24px;
+}
+
+p {
+  margin: 0;
+}
+
+.subtitle {
+  margin-block-start: 4px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.score {
+  display: flex;
+  gap: 16px;
+  font: var(--mat-sys-label-large);
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  mat-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.correct {
+  color: var(--app-success);
+}
+
+.wrong {
+  color: var(--mat-sys-error);
+}
+
+.card {
+  max-width: 640px;
+  margin-inline: auto;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-large);
+  background: var(--mat-sys-surface);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+
+  @media (width < 600px) {
+    padding: 20px;
+  }
+}
+
+.direction {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  padding: 4px 16px;
+  border-radius: var(--mat-sys-corner-small);
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  font: var(--mat-sys-label-large);
+
+  mat-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.wrong-answer {
+  @include mat.form-field-overrides(
+    (
+      outlined-outline-color: var(--mat-sys-error),
+      outlined-hover-outline-color: var(--mat-sys-error),
+      outlined-focus-outline-color: var(--mat-sys-error),
+      outlined-label-text-color: var(--mat-sys-error),
+      outlined-hover-label-text-color: var(--mat-sys-error),
+      outlined-focus-label-text-color: var(--mat-sys-error),
+    )
+  );
+}
+
+#question {
+  margin-block: 24px;
+}
+
+.prompt {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.word {
+  margin-block-start: 8px;
+  font: var(--mat-sys-display-medium);
+
+  @media (width < 600px) {
+    font: var(--mat-sys-display-small);
+  }
+  overflow-wrap: anywhere;
+}
+
+.feedback {
+  display: flex;
+  gap: 12px;
+  margin-block-start: 8px;
+  padding: 16px;
+  border-radius: var(--mat-sys-corner-medium);
+
+  &.correct {
+    background: var(--app-success-container);
+    color: var(--mat-sys-on-surface);
+
+    mat-icon {
+      color: var(--app-success);
+    }
+  }
+
+  &.wrong {
+    background: var(--mat-sys-error-container);
+    color: var(--mat-sys-on-error-container);
+
+    mat-icon {
+      color: var(--mat-sys-error);
+    }
+  }
+
+  .title {
+    margin-block-end: 4px;
+    font: var(--mat-sys-title-medium);
+  }
+
+  .solution {
+    margin-block-start: 4px;
+    font: var(--mat-sys-body-large);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-block-start: 24px;
+}
+
+.hint {
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 56px 24px;
+  text-align: center;
+
+  p {
+    max-width: 52ch;
+    margin-block-end: 16px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}

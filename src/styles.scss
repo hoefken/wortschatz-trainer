@@ -13,6 +13,10 @@ html {
       density: 0,
     )
   );
+
+  // Material 3 has no success role; values from the reference design tokens.
+  --app-success: #1b6b3e;
+  --app-success-container: #c6efcf;
 }
 
 body {

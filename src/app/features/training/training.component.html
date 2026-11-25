@@ -37,31 +37,33 @@
         <mat-error>{{ form.answer().errors()[0]?.message }}</mat-error>
       </mat-form-field>
       <div role="status">
-        @if (checked?.correct === true) {
-          <div class="feedback correct">
-            <mat-icon svgIcon="check_circle" />
-            <div>
-              <p class="title">Richtig!</p>
-              <p>{{ question.word }} = {{ question.solution }}</p>
+        @if (checked) {
+          @if (checked.correct) {
+            <div class="feedback correct">
+              <mat-icon svgIcon="check_circle" />
+              <div>
+                <p class="title">Richtig!</p>
+                <p>{{ question.word }} = {{ question.solution }}</p>
+              </div>
             </div>
-          </div>
-        } @else if (checked?.correct === false) {
-          <div class="feedback wrong">
-            <mat-icon svgIcon="cancel" />
-            <div>
-              <p class="title">Leider falsch.</p>
-              <p>
-                Deine Antwort: <s>{{ checked?.answer }}</s>
-              </p>
-              <p class="solution">
-                Richtig: <strong [lang]="question.to.code">{{ question.solution }}</strong>
-              </p>
-              <p class="repeat-hint">
-                „<span [lang]="question.from.code">{{ question.word }}</span
-                >“ kommt in dieser Sitzung öfter dran.
-              </p>
+          } @else {
+            <div class="feedback wrong">
+              <mat-icon svgIcon="cancel" />
+              <div>
+                <p class="title">Leider falsch.</p>
+                <p>
+                  Deine Antwort: <s>{{ checked.answer }}</s>
+                </p>
+                <p class="solution">
+                  Richtig: <strong [lang]="question.to.code">{{ question.solution }}</strong>
+                </p>
+                <p class="repeat-hint">
+                  „<span [lang]="question.from.code">{{ question.word }}</span
+                  >“ kommt in dieser Sitzung öfter dran.
+                </p>
+              </div>
             </div>
-          </div>
+          }
         }
       </div>
       <div class="actions">

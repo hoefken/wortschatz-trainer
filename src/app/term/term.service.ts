@@ -1,16 +1,20 @@
-import { computed, Service, signal } from '@angular/core';
+import { computed, effect, inject, Service, signal } from '@angular/core';
+import { LocalStorageService } from '../shared/local-storage.service';
 import { Language } from '../shared/models/language';
 import { isSameWord } from './is-same-word';
 import { SAMPLE_TERMS } from './sample-terms';
 import { Term, Translations } from './term';
 import { UnsavedWordPair, WordPair } from '../shared/models/word-pair';
 
+const STORAGE_KEY = 'wortschatz-trainer.terms.v1';
+
 @Service()
 export class TermService {
   readonly sourceLanguage: Language = { code: 'de', name: 'Deutsch' };
   readonly targetLanguage: Language = { code: 'en', name: 'Englisch' };
 
-  private readonly terms = signal<readonly Term[]>([]);
+  private readonly storage = inject(LocalStorageService);
+  private readonly terms = signal<readonly Term[]>(this.loadTerms());
 
   readonly wordPairs = computed<readonly WordPair[]>(() =>
     this.terms().flatMap(
@@ -25,6 +29,10 @@ export class TermService {
       translations => !this.isDuplicate(translations[this.sourceLanguage.code] ?? ''),
     ),
   );
+
+  constructor() {
+    effect(() => this.storage.write(STORAGE_KEY, this.terms()));
+  }
 
   add(words: UnsavedWordPair): void {
     this.terms.update(terms => [...terms, Term.create(this.toTranslations(words))]);
@@ -60,6 +68,11 @@ export class TermService {
 
   shuffledWordPairs(): WordPair[] {
     return shuffle(this.wordPairs());
+  }
+
+  private loadTerms(): Term[] {
+    const stored = this.storage.read(STORAGE_KEY);
+    return Array.isArray(stored) ? stored.flatMap(item => Term.fromStored(item) ?? []) : [];
   }
 
   private toTranslations({ source, target }: UnsavedWordPair): Translations {

@@ -83,6 +83,32 @@ test.describe('Section "Erfassen"', () => {
     });
   });
 
+  test('keeps the word list after a reload', async ({ navigation }) => {
+    await test.step('add a word pair', async () => {
+      await vocabularyPage.addWordPair(WORD_PAIR.source, WORD_PAIR.target);
+
+      await expect(vocabularyPage.count).toHaveText('1 Wortpaar');
+    });
+
+    await test.step('reload: the word pair is still there', async () => {
+      await navigation.reload();
+
+      await expect(table.row(WORD_PAIR.source)).toContainText(WORD_PAIR.target);
+    });
+
+    await test.step('reset everything', async () => {
+      await vocabularyPage.resetAll();
+
+      await expect(vocabularyPage.count).toHaveText('0 Wortpaare');
+    });
+
+    await test.step('reload: the list stays empty', async () => {
+      await navigation.reload();
+
+      await expect(vocabularyPage.emptyState).toBeVisible();
+    });
+  });
+
   for (const viewport of [
     { width: 360, height: 800 },
     { width: 1280, height: 900 },

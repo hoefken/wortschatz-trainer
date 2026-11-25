@@ -23,4 +23,22 @@ describe('Term', () => {
   it('gets a new unique id when created', () => {
     expect(Term.create({ de: 'Baum' }).id).not.toBe(Term.create({ de: 'Baum' }).id);
   });
+
+  it('is restored from its stored form', () => {
+    const stored = JSON.parse(JSON.stringify(term));
+
+    expect(Term.fromStored(stored)).toEqual(term);
+  });
+
+  it('is not restored from data of another shape', () => {
+    for (const value of [
+      null,
+      'Haus',
+      { id: 't1' },
+      { id: 1, translations: { de: 'Haus' } },
+      { id: 't1', translations: { de: 42 } },
+    ]) {
+      expect(Term.fromStored(value)).toBeUndefined();
+    }
+  });
 });

@@ -16,4 +16,10 @@ export class Navigation {
       await this.tab(name).click();
     });
   }
+
+  async reload(): Promise<void> {
+    await test.step('reload the page', async () => {
+      await this.page.reload();
+    });
+  }
 }

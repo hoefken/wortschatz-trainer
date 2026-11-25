@@ -1,11 +1,25 @@
 import { TestBed } from '@angular/core/testing';
 import { TermService } from './term.service';
 
+const STORAGE_KEY = 'wortschatz-trainer.terms.v1';
+
 describe('TermService', () => {
   let service: TermService;
 
   beforeEach(() => {
     service = TestBed.inject(TermService);
+  });
+
+  it('loads the valid saved terms at start and skips broken ones', () => {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify([{ id: 't1', translations: { de: 'Haus', en: 'house' } }, { id: 't2' }]),
+    );
+    TestBed.resetTestingModule();
+
+    const restarted = TestBed.inject(TermService);
+
+    expect(restarted.wordPairs()).toEqual([{ id: 't1', source: 'Haus', target: 'house' }]);
   });
 
   it('starts without word pairs in the default language pair', () => {
@@ -80,6 +94,15 @@ describe('TermService', () => {
 
     service.remove(haus.id);
     expect(service.canAddSamples()).toBe(true);
+  });
+
+  it('saves the terms after a change', () => {
+    service.add({ source: 'Haus', target: 'house' });
+    TestBed.tick();
+
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!)).toEqual([
+      { id: expect.any(String), translations: { de: 'Haus', en: 'house' } },
+    ]);
   });
 
   it('detects duplicates ignoring case and surrounding spaces, except the pair itself', () => {

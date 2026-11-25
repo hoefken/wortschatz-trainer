@@ -9,10 +9,6 @@ header {
   margin-block-end: 24px;
 }
 
-p {
-  margin: 0;
-}
-
 .subtitle {
   margin-block-start: 4px;
   color: var(--mat-sys-on-surface-variant);
@@ -46,9 +42,6 @@ p {
 .card {
   max-width: 640px;
   margin-inline: auto;
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: var(--mat-sys-corner-large);
-  background: var(--mat-sys-surface);
 }
 
 form {

@@ -41,8 +41,15 @@ body {
 }
 
 h1,
-h2 {
+h2,
+p {
   margin: 0;
+}
+
+.card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-large);
+  background: var(--mat-sys-surface);
 }
 
 h1 {

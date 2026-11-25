@@ -6,7 +6,6 @@
   margin-inline: auto;
 }
 
-p,
 dl,
 dd,
 ul {
@@ -16,12 +15,6 @@ ul {
 h2 {
   margin-block-start: 8px;
   font: var(--mat-sys-title-medium);
-}
-
-.card {
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: var(--mat-sys-corner-large);
-  background: var(--mat-sys-surface);
 }
 
 .verdict {

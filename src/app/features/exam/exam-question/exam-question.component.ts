@@ -38,7 +38,6 @@ export class ExamQuestion {
         this.session.answer(this.model().answer);
         this.form().reset({ answer: '' });
         this.focusAnswer();
-        return null;
       },
     },
   });

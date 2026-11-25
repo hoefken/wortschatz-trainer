@@ -44,7 +44,6 @@ export class ExamSetup {
         action: async () => {
           const { limit, passRate } = this.model();
           this.session.start({ limit: limit ?? this.available, passRate });
-          return null;
         },
       },
     },

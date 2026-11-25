@@ -39,13 +39,6 @@ export class WordPairDialog {
           : null,
       );
     },
-    {
-      submission: {
-        action: async () => {
-          this.dialogRef.close(this.model());
-          return null;
-        },
-      },
-    },
+    { submission: { action: async () => this.dialogRef.close(this.model()) } },
   );
 }

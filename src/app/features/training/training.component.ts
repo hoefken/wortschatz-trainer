@@ -35,14 +35,7 @@ export class Training {
       required(path.answer, { message: 'Bitte eine Antwort eingeben.' });
       readonly(path.answer, { when: () => this.session.checkedAnswer() !== undefined });
     },
-    {
-      submission: {
-        action: async () => {
-          this.checkOrContinue();
-          return null;
-        },
-      },
-    },
+    { submission: { action: async () => this.checkOrContinue() } },
   );
 
   constructor() {

@@ -47,7 +47,7 @@ export class Vocabulary {
   protected async reset(): Promise<void> {
     const confirmed = await this.confirm({
       title: 'Alles zurücksetzen?',
-      message: `Alle ${this.terms.wordPairs().length} Wortpaare werden gelöscht. Das lässt sich nicht rückgängig machen.`,
+      message: 'Alle Wortpaare werden gelöscht. Das lässt sich nicht rückgängig machen.',
       confirmLabel: 'Alles löschen',
     });
     if (confirmed) {

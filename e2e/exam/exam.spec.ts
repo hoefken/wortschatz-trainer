@@ -71,8 +71,10 @@ test.describe('Section "Prüfung"', () => {
         });
       }
 
-      await expect(examPage.verdict).toHaveText('Bestanden');
-      await expect(examPage.mistakes).toHaveCount(0);
+      await test.step('show "Bestanden" without mistakes', async () => {
+        await expect(examPage.verdict).toHaveText('Bestanden');
+        await expect(examPage.mistakes).toHaveCount(0);
+      });
     });
 
     test('checks the number of words and shows the pass mark', async () => {

@@ -19,9 +19,11 @@ test.describe('Section "Trainieren"', () => {
   });
 
   test('links to "Erfassen" while there are no word pairs', async () => {
-    await navigation.openSection('Trainieren');
+    await test.step('show the empty state', async () => {
+      await navigation.openSection('Trainieren');
 
-    await expect(trainingPage.emptyState).toBeVisible();
+      await expect(trainingPage.emptyState).toBeVisible();
+    });
 
     await test.step('go to "Erfassen"', async () => {
       await trainingPage.goToVocabulary();

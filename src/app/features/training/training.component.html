@@ -1,5 +1,5 @@
 @let question = session.question();
-@let result = session.result();
+@let checked = session.checkedAnswer();
 
 <header>
   <div>
@@ -21,7 +21,7 @@
       <mat-form-field
         appearance="outline"
         hideRequiredMarker
-        [class.wrong-answer]="result?.correct === false"
+        [class.wrong-answer]="checked?.correct === false"
       >
         <mat-label>Deine Antwort</mat-label>
         <input
@@ -37,7 +37,7 @@
         <mat-error>{{ form.answer().errors()[0]?.message }}</mat-error>
       </mat-form-field>
       <div role="status">
-        @if (result?.correct === true) {
+        @if (checked?.correct === true) {
           <div class="feedback correct">
             <mat-icon svgIcon="check_circle" />
             <div>
@@ -45,13 +45,13 @@
               <p>{{ question.word }} = {{ question.solution }}</p>
             </div>
           </div>
-        } @else if (result?.correct === false) {
+        } @else if (checked?.correct === false) {
           <div class="feedback wrong">
             <mat-icon svgIcon="cancel" />
             <div>
               <p class="title">Leider falsch.</p>
               <p>
-                Deine Antwort: <s>{{ result?.answer }}</s>
+                Deine Antwort: <s>{{ checked?.answer }}</s>
               </p>
               <p class="solution">
                 Richtig: <strong [lang]="question.to.code">{{ question.solution }}</strong>
@@ -65,8 +65,8 @@
         }
       </div>
       <div class="actions">
-        <span class="hint">{{ result ? 'Enter – weiter' : 'Enter prüft' }}</span>
-        @if (result) {
+        <span class="hint">{{ checked ? 'Enter – weiter' : 'Enter prüft' }}</span>
+        @if (checked) {
           <button matButton="filled" type="submit">
             Weiter
             <mat-icon svgIcon="arrow_forward" iconPositionEnd />

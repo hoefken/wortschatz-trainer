@@ -18,7 +18,7 @@ export interface TrainingScore {
 interface Round {
   readonly pairId: string;
   readonly reversed: boolean;
-  readonly result?: TrainingAnswer;
+  readonly checkedAnswer?: TrainingAnswer;
 }
 
 @Service()
@@ -32,7 +32,7 @@ export class TrainingSession {
     return toQuestion(pair, this.terms.sourceLanguage, this.terms.targetLanguage, round.reversed);
   });
 
-  readonly result = computed(() => this.round()?.result);
+  readonly checkedAnswer = computed(() => this.round()?.checkedAnswer);
   readonly score = computed(() => this.tally());
 
   private readonly terms = inject(TermService);
@@ -57,11 +57,11 @@ export class TrainingSession {
   check(answer: string): void {
     const round = this.round();
     const question = this.question();
-    if (!round || !question || round.result) {
+    if (!round || !question || round.checkedAnswer) {
       return;
     }
     const correct = isSameWord(answer, question.solution);
-    this.round.set({ ...round, result: { answer: answer.trim(), correct } });
+    this.round.set({ ...round, checkedAnswer: { answer: answer.trim(), correct } });
     if (correct) {
       this.tally.update(score => ({ ...score, correct: score.correct + 1 }));
       this.extraTickets.update(tickets => removeExtraTicket(tickets, round.pairId));

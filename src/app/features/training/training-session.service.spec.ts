@@ -46,7 +46,7 @@ describe('TrainingSession', () => {
 
     session.check('  HOUSE ');
 
-    expect(session.result()).toEqual({ answer: 'HOUSE', correct: true });
+    expect(session.checkedAnswer()).toEqual({ answer: 'HOUSE', correct: true });
     expect(session.score()).toEqual({ correct: 1, wrong: 0 });
   });
 
@@ -56,7 +56,7 @@ describe('TrainingSession', () => {
     session.check('home');
     session.check('house');
 
-    expect(session.result()).toEqual({ answer: 'home', correct: false });
+    expect(session.checkedAnswer()).toEqual({ answer: 'home', correct: false });
     expect(session.score()).toEqual({ correct: 0, wrong: 1 });
   });
 
@@ -68,7 +68,7 @@ describe('TrainingSession', () => {
     session.next();
 
     expect(session.question()?.word).toBe('Baum');
-    expect(session.result()).toBeUndefined();
+    expect(session.checkedAnswer()).toBeUndefined();
   });
 
   it('keeps asking the only word pair there is', () => {
@@ -130,7 +130,7 @@ describe('TrainingSession', () => {
     terms.remove(id);
 
     expect(session.question()?.word).toBe('Baum');
-    expect(session.result()).toBeUndefined();
+    expect(session.checkedAnswer()).toBeUndefined();
     expect(session.score()).toEqual({ correct: 1, wrong: 0 });
   });
 });

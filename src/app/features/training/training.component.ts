@@ -26,13 +26,13 @@ import { TrainingSession } from './training-session.service';
 export class Training {
   protected readonly session = inject(TrainingSession);
 
-  private readonly model = signal({ answer: this.session.result()?.answer ?? '' });
+  private readonly model = signal({ answer: this.session.checkedAnswer()?.answer ?? '' });
 
   protected readonly form = form(
     this.model,
     path => {
       required(path.answer, { message: 'Bitte eine Antwort eingeben.' });
-      readonly(path.answer, { when: () => this.session.result() !== undefined });
+      readonly(path.answer, { when: () => this.session.checkedAnswer() !== undefined });
     },
     {
       submission: {
@@ -49,7 +49,7 @@ export class Training {
   }
 
   private checkOrContinue(): void {
-    if (this.session.result()) {
+    if (this.session.checkedAnswer()) {
       this.session.next();
       this.form().reset({ answer: '' });
     } else {

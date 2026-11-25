@@ -16,7 +16,11 @@ export const SAMPLE_COUNT = SAMPLE_WORDS.size;
 // Not a translation of any sample word.
 export const WRONG_ANSWER = 'xyz';
 
-export const SOLUTIONS = new Map([
+const SOLUTIONS = new Map([
   ...SAMPLE_WORDS,
   ...[...SAMPLE_WORDS].map(([de, en]) => [en, de] as const),
 ]);
+
+export function solutionFor(word: string | null): string {
+  return SOLUTIONS.get(word ?? '') ?? '';
+}

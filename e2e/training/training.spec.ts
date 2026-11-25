@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { Navigation } from '../util/pageobjects/navigation';
 import { Domain } from '../util/pageobjects/domain';
-import { SOLUTIONS, WRONG_ANSWER } from '../util/sample-words';
+import { solutionFor, WRONG_ANSWER } from '../util/sample-words';
 import { fixtureBase } from '../util/fixture-base';
 import { TrainingPage } from './pageobjects/training-page';
 
@@ -31,17 +31,17 @@ test.describe('Section "Trainieren"', () => {
   });
 
   test.describe('with "Beispieldaten"', () => {
+    let word: string | null;
     let solution: string;
 
     test.beforeEach(async () => {
       await domain.addSamples();
       await navigation.openSection('Trainieren');
-      solution = SOLUTIONS.get((await trainingPage.word.textContent()) ?? '') ?? '';
+      word = await trainingPage.word.textContent();
+      solution = solutionFor(word);
     });
 
     test('accepts the right answer ignoring case and asks the next word', async () => {
-      const word = await trainingPage.word.textContent();
-
       await test.step('answer in upper case', async () => {
         await trainingPage.answer(solution.toUpperCase());
 

@@ -1,5 +1,7 @@
 :host {
   display: block;
+  max-width: 640px;
+  margin-inline: auto;
 }
 
 p {
@@ -10,9 +12,6 @@ p {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-sizing: border-box;
-  max-width: 640px;
-  margin-inline: auto;
   padding: 32px;
   border: 1px solid var(--mat-sys-outline-variant);
   border-radius: var(--mat-sys-corner-large);

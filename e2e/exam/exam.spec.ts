@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { Navigation } from '../util/pageobjects/navigation';
 import { Domain } from '../util/pageobjects/domain';
-import { SAMPLE_COUNT, SOLUTIONS } from '../util/sample-words';
+import { SAMPLE_COUNT, SOLUTIONS, WRONG_ANSWER } from '../util/sample-words';
 import { fixtureBase } from '../util/fixture-base';
 import { ExamPage } from './pageobjects/exam-page';
 
@@ -35,20 +35,24 @@ test.describe('Section "Prüfung"', () => {
 
       await examPage.start({ limit: 3 });
 
-      // One right, one wrong, one left empty.
-      for (const [index, answer] of ['right', 'wrong', ''].entries()) {
-        await test.step(`answer question ${index + 1} of 3`, async () => {
+      for (const [index, kind] of (['right', 'wrong', 'empty'] as const).entries()) {
+        await test.step(`answer question ${index + 1} of 3: ${kind}`, async () => {
           await expect(examPage.progress).toHaveText(`Frage ${index + 1} von 3`);
           const word = (await examPage.word.textContent()) ?? '';
           asked.push(word);
+          const answers = { right: SOLUTIONS.get(word) ?? '', wrong: WRONG_ANSWER, empty: '' };
 
-          await examPage.answer(answer === 'right' ? (SOLUTIONS.get(word) ?? '') : answer);
+          await examPage.answer(answers[kind]);
         });
       }
 
-      await test.step('show result and statistics', async () => {
+      await test.step('three different words were asked', async () => {
         expect(new Set(asked).size).toBe(3);
+      });
+
+      await test.step('show result and statistics', async () => {
         await expect(examPage.verdict).toHaveText('Nicht bestanden');
+        // Trefferquote, Richtig, Falsch, Benötigte Zeit
         await expect(examPage.statistics).toHaveText(['33 %', '1', '2', /^\d+:\d\d$/]);
         await expect(examPage.mistakes).toHaveCount(2);
         await expect(examPage.mistakes.nth(1)).toContainText('nicht beantwortet');

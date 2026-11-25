@@ -63,6 +63,7 @@ test.describe('Section "Trainieren"', () => {
 
       await expect(trainingPage.feedback).toContainText('Leider falsch.');
       await expect(trainingPage.feedback).toContainText(`Richtig: ${solution}`);
+      await expect(trainingPage.feedback).toContainText('kommt in dieser Sitzung öfter dran.');
       await expect(trainingPage.wrongCount).toHaveText('1 falsch');
     });
 

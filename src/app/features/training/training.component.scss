@@ -108,6 +108,11 @@ form {
     margin-block-start: 4px;
     font: var(--mat-sys-body-large);
   }
+
+  .repeat-hint {
+    margin-block-start: 8px;
+    font: var(--mat-sys-body-small);
+  }
 }
 
 .actions {

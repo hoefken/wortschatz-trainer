@@ -79,6 +79,39 @@ describe('TrainingSession', () => {
     expect(session.question()?.word).toBe('Haus');
   });
 
+  it('asks a wrongly answered word pair more often', () => {
+    terms.add({ source: 'Haus', target: 'house' });
+    terms.add({ source: 'Baum', target: 'tree' });
+    terms.add({ source: 'Katze', target: 'cat' });
+    session.check('xyz');
+    session.next();
+    expect(session.question()?.word).toBe('Baum');
+
+    // The draw is [Haus, Katze, Haus]; without the extra ticket, 0.7 would pick Katze.
+    random.mockReturnValueOnce(0.7);
+    session.next();
+
+    expect(session.question()?.word).toBe('Haus');
+  });
+
+  it('lowers the weight again after a right answer', () => {
+    terms.add({ source: 'Haus', target: 'house' });
+    terms.add({ source: 'Baum', target: 'tree' });
+    terms.add({ source: 'Katze', target: 'cat' });
+    session.check('xyz');
+    session.next();
+    random.mockReturnValueOnce(0.7);
+    session.next();
+    session.check('house');
+    session.next();
+    expect(session.question()?.word).toBe('Baum');
+
+    random.mockReturnValueOnce(0.7);
+    session.next();
+
+    expect(session.question()?.word).toBe('Katze');
+  });
+
   it('shows an edited word pair in the current question', () => {
     terms.add({ source: 'Haus', target: 'house' });
     const [{ id }] = terms.wordPairs();

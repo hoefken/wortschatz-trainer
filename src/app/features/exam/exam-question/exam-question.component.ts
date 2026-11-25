@@ -52,7 +52,7 @@ export class ExamQuestion {
         title: 'Prüfung abbrechen?',
         message:
           'Deine bisherigen Antworten werden verworfen; es gibt kein Ergebnis. Erfassen und Trainieren sind danach wieder freigegeben.',
-        confirmLabel: 'Abbrechen',
+        confirmLabel: 'Prüfung abbrechen',
         cancelLabel: 'Weiter prüfen',
       },
     });

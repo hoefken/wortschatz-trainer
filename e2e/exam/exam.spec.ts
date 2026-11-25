@@ -108,7 +108,7 @@ test.describe('Section "Prüfung"', () => {
       });
 
       await test.step('cancel and unlock the tabs', async () => {
-        await examPage.cancel('Abbrechen');
+        await examPage.cancel('Prüfung abbrechen');
 
         await expect(examPage.limitInput).toBeVisible();
         await expect(navigation.tab('Erfassen')).toBeEnabled();

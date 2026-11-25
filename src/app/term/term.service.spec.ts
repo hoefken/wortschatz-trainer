@@ -10,18 +10,6 @@ describe('TermService', () => {
     service = TestBed.inject(TermService);
   });
 
-  it('loads the valid saved terms at start and skips broken ones', () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify([{ id: 't1', translations: { de: 'Haus', en: 'house' } }, { id: 't2' }]),
-    );
-    TestBed.resetTestingModule();
-
-    const restarted = TestBed.inject(TermService);
-
-    expect(restarted.wordPairs()).toEqual([{ id: 't1', source: 'Haus', target: 'house' }]);
-  });
-
   it('starts without word pairs in the default language pair', () => {
     expect(service.sourceLanguage.code).toBe('de');
     expect(service.targetLanguage.code).toBe('en');
@@ -112,5 +100,18 @@ describe('TermService', () => {
     expect(service.isDuplicate(' haus ')).toBe(true);
     expect(service.isDuplicate('Haus', id)).toBe(false);
     expect(service.isDuplicate('Baum')).toBe(false);
+  });
+});
+
+describe('TermService with saved terms', () => {
+  it('loads the valid saved terms at start and skips broken ones', () => {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify([{ id: 't1', translations: { de: 'Haus', en: 'house' } }, { id: 't2' }]),
+    );
+
+    const service = TestBed.inject(TermService);
+
+    expect(service.wordPairs()).toEqual([{ id: 't1', source: 'Haus', target: 'house' }]);
   });
 });

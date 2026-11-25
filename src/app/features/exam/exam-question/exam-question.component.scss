@@ -1,0 +1,34 @@
+:host {
+  display: block;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+header {
+  margin-block-end: 16px;
+}
+
+mat-progress-bar {
+  margin-block-end: 24px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-large);
+  background: var(--mat-sys-surface);
+
+  @media (width < 600px) {
+    padding: 20px;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-block-start: 24px;
+}

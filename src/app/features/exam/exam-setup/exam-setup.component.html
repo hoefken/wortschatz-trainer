@@ -1,0 +1,42 @@
+<form [formRoot]="form" class="card">
+  <mat-form-field appearance="outline" hideRequiredMarker class="count">
+    <mat-label>Anzahl Wörter</mat-label>
+    <input matInput type="number" [formField]="form.count" />
+    <span matTextSuffix>von {{ available }}</span>
+    <mat-hint>Standard: alle erfassten Wörter</mat-hint>
+    <mat-error>{{ form.count().errors()[0]?.message }}</mat-error>
+  </mat-form-field>
+
+  <div class="pass-rate">
+    <div class="label">
+      <span id="pass-rate-label">Nötige Trefferquote</span>
+      <span class="value">{{ form.passRate().value() }} %</span>
+    </div>
+    <mat-slider min="10" max="100" step="5">
+      <input
+        matSliderThumb
+        [formField]="form.passRate"
+        aria-labelledby="pass-rate-label"
+        aria-describedby="pass-rate-hint"
+      />
+    </mat-slider>
+    <p id="pass-rate-hint" class="hint">
+      @if (passThreshold(); as threshold) {
+        Bestanden ab {{ threshold }} von {{ form.count().value() }} richtigen Antworten.
+      }
+    </p>
+  </div>
+
+  <p class="notice">
+    <mat-icon svgIcon="lock" />
+    Während der Prüfung sind „Erfassen“ und „Trainieren“ gesperrt. Pro Antwort gibt es keine
+    Rückmeldung – das Resultat kommt am Ende.
+  </p>
+
+  <div class="actions">
+    <button matButton="filled" type="submit">
+      <mat-icon svgIcon="play_arrow" />
+      Prüfung starten
+    </button>
+  </div>
+</form>

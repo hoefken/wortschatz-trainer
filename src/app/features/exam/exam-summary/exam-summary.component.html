@@ -1,0 +1,74 @@
+@let r = result();
+
+<h1>Resultat</h1>
+
+<section class="card verdict" [class.passed]="r.passed" [class.failed]="!r.passed">
+  <div class="headline">
+    <span class="badge"><mat-icon [svgIcon]="r.passed ? 'check' : 'close'" /></span>
+    <div>
+      <h2>{{ r.passed ? 'Bestanden' : 'Nicht bestanden' }}</h2>
+      <p class="detail">{{ r.correct }} von {{ r.total }} richtig · nötig: {{ r.passRate }} %</p>
+    </div>
+    <p class="rate">{{ r.rate }} %</p>
+  </div>
+  <div class="bar" aria-hidden="true">
+    <div class="fill" [style.width.%]="r.rate"></div>
+    <div class="mark" [style.left.%]="r.passRate">
+      <span>nötig {{ r.passRate }} %</span>
+    </div>
+  </div>
+</section>
+
+<h2>Statistik</h2>
+<dl class="stats">
+  <div class="card">
+    <dt>Trefferquote</dt>
+    <dd>{{ r.rate }} %</dd>
+  </div>
+  <div class="card">
+    <dt>Richtig</dt>
+    <dd>{{ r.correct }}</dd>
+  </div>
+  <div class="card">
+    <dt>Falsch</dt>
+    <dd>{{ r.wrong }}</dd>
+  </div>
+  <div class="card wide">
+    <dt>Benötigte Zeit</dt>
+    <dd>{{ duration() }}</dd>
+  </div>
+</dl>
+
+@if (r.mistakes.length > 0) {
+  <h2>Fehler ({{ r.mistakes.length }})</h2>
+  <ul class="card mistakes">
+    @for (mistake of r.mistakes; track $index) {
+      @let q = mistake.question;
+      <li>
+        <div>
+          <p class="word" [lang]="q.from.code">{{ q.word }}</p>
+          <p class="direction">{{ q.from.name }} → {{ q.to.name }}</p>
+        </div>
+        <p>
+          Deine Antwort:
+          @if (mistake.answer) {
+            <s [lang]="q.to.code">{{ mistake.answer }}</s>
+          } @else {
+            <em>nicht beantwortet</em>
+          }
+        </p>
+        <p>
+          Richtig: <strong [lang]="q.to.code">{{ q.solution }}</strong>
+        </p>
+      </li>
+    }
+  </ul>
+}
+
+<div class="actions">
+  <button matButton="filled" type="button" (click)="session.reset()">
+    <mat-icon svgIcon="restart_alt" />
+    Neue Prüfung
+  </button>
+  <a matButton="outlined" routerLink="/vocabulary">Zurück zum Erfassen</a>
+</div>

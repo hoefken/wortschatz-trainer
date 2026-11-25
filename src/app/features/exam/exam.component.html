@@ -1,1 +1,24 @@
-<h1>Prüfung</h1>
+@if (session.running()) {
+  <loco-exam-question />
+} @else if (session.result(); as result) {
+  <loco-exam-summary [result]="result" />
+} @else {
+  <header>
+    <h1>Prüfung</h1>
+    <p class="subtitle">
+      Jedes gewählte Wort kommt genau einmal dran – in zufälliger Reihenfolge und Richtung.
+    </p>
+  </header>
+  @if (terms.wordPairs().length > 0) {
+    <loco-exam-setup />
+  } @else {
+    <section class="card empty">
+      <h2>Noch keine Wörter für eine Prüfung</h2>
+      <p>
+        Erfasse zuerst ein paar Wortpaare – oder füge dort Beispieldaten ein. Danach geht es hier
+        los.
+      </p>
+      <a matButton="filled" routerLink="/vocabulary">Zu „Erfassen“</a>
+    </section>
+  }
+}

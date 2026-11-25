@@ -1,0 +1,37 @@
+@let question = session.question();
+
+<header>
+  <h1>Frage {{ session.position() }} von {{ session.total() }}</h1>
+</header>
+<mat-progress-bar
+  mode="determinate"
+  [value]="(session.position() * 100) / session.total()"
+  aria-label="Fortschritt der Prüfung"
+/>
+
+@if (question) {
+  <form [formRoot]="form" class="card">
+    <loco-question-prompt id="question" [question]="question" />
+    <mat-form-field appearance="outline">
+      <mat-label>Deine Antwort</mat-label>
+      <input
+        matInput
+        [formField]="form.answer"
+        [lang]="question.to.code"
+        placeholder="Übersetzung eingeben"
+        aria-describedby="question"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <mat-hint>Enter – weiter. Leer lassen zählt als falsch.</mat-hint>
+    </mat-form-field>
+    <div class="actions">
+      <button matButton type="button" class="danger" (click)="cancel()">Prüfung abbrechen</button>
+      <button matButton="filled" type="submit">
+        Weiter
+        <mat-icon svgIcon="arrow_forward" iconPositionEnd />
+      </button>
+    </div>
+  </form>
+}

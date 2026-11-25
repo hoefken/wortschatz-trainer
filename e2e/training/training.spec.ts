@@ -1,34 +1,32 @@
 import { expect } from '@playwright/test';
-import { AppShell } from '../util/pageobjects/app-shell';
+import { Navigation } from '../util/pageobjects/navigation';
+import { Domain } from '../util/pageobjects/domain';
 import { SOLUTIONS } from '../util/sample-words';
-import { VocabularyPage } from '../vocabulary/pageobjects/vocabulary-page';
-import { fixtureTraining } from './fixture-training';
+import { fixtureBase } from '../util/fixture-base';
 import { TrainingPage } from './pageobjects/training-page';
 
-const test = fixtureTraining;
+const test = fixtureBase;
 
 test.describe('Section "Trainieren"', () => {
-  let appShell: AppShell;
-  let vocabularyPage: VocabularyPage;
+  let navigation: Navigation;
+  let domain: Domain;
   let trainingPage: TrainingPage;
 
-  test.beforeEach(
-    async ({ appShell: shell, vocabularyPage: vocabulary, trainingPage: training }) => {
-      appShell = shell;
-      vocabularyPage = vocabulary;
-      trainingPage = training;
-    },
-  );
+  test.beforeEach(async ({ navigation: nav, domain: steps, trainingPage: training }) => {
+    navigation = nav;
+    domain = steps;
+    trainingPage = training;
+  });
 
   test('links to "Erfassen" while there are no word pairs', async () => {
-    await trainingPage.open();
+    await navigation.openSection('Trainieren');
 
     await expect(trainingPage.emptyState).toBeVisible();
 
     await test.step('go to "Erfassen"', async () => {
       await trainingPage.goToVocabulary();
 
-      await expect(vocabularyPage.page).toHaveURL(/\/vocabulary$/);
+      await expect(navigation.page).toHaveURL(/\/vocabulary$/);
     });
   });
 
@@ -36,8 +34,8 @@ test.describe('Section "Trainieren"', () => {
     let solution: string;
 
     test.beforeEach(async () => {
-      await vocabularyPage.addSamples();
-      await trainingPage.open();
+      await domain.addSamples();
+      await navigation.openSection('Trainieren');
       solution = SOLUTIONS.get((await trainingPage.word.textContent()) ?? '') ?? '';
     });
 
@@ -79,8 +77,8 @@ test.describe('Section "Trainieren"', () => {
       await trainingPage.answer('xyz');
 
       await test.step('leave for "Erfassen" and come back', async () => {
-        await appShell.openSection('Erfassen');
-        await trainingPage.open();
+        await navigation.openSection('Erfassen');
+        await navigation.openSection('Trainieren');
 
         await expect(trainingPage.wrongCount).toHaveText('1 falsch');
         await expect(trainingPage.feedback).toContainText('Leider falsch.');

@@ -24,12 +24,6 @@ export class VocabularyPage {
     this.confirmDialog = new ConfirmDialog(page);
   }
 
-  async goto(): Promise<void> {
-    await test.step('open section "Erfassen"', async () => {
-      await this.page.goto('/vocabulary');
-    });
-  }
-
   async addSamples(): Promise<void> {
     await test.step('click "Beispieldaten einfügen"', async () => {
       await this.samplesButton.click();
@@ -47,6 +41,22 @@ export class VocabularyPage {
     await test.step(`open dialog "Wortpaar bearbeiten" for "${source}"`, async () => {
       await this.table.editButton(source).click();
       await this.wordPairDialog.waitUntilOpen();
+    });
+  }
+
+  async addWordPair(source: string, target: string): Promise<void> {
+    await test.step(`add word pair "${source}" / "${target}"`, async () => {
+      await this.openAddDialog();
+      await this.wordPairDialog.fill(source, target);
+      await this.wordPairDialog.submitWithEnter();
+    });
+  }
+
+  async editWordPair(source: string, target: string): Promise<void> {
+    await test.step(`change translation of "${source}" to "${target}"`, async () => {
+      await this.openEditDialog(source);
+      await this.wordPairDialog.fillTarget(target);
+      await this.wordPairDialog.submit();
     });
   }
 

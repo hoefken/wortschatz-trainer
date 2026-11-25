@@ -1,6 +1,6 @@
 import { Locator, Page, test } from '@playwright/test';
 
-export class AppShell {
+export class Navigation {
   readonly heading: Locator;
 
   constructor(readonly page: Page) {

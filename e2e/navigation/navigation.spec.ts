@@ -1,33 +1,33 @@
 import { expect } from '@playwright/test';
 import { fixtureBase } from '../util/fixture-base';
-import { AppShell } from '../util/pageobjects/app-shell';
+import { Navigation } from '../util/pageobjects/navigation';
 
 const test = fixtureBase;
 
 test.describe('Navigation', () => {
-  let appShell: AppShell;
+  let navigation: Navigation;
 
-  test.beforeEach(async ({ appShell: shell }) => {
-    appShell = shell;
+  test.beforeEach(async ({ navigation: nav }) => {
+    navigation = nav;
   });
 
   test('switches between the three sections', async () => {
     await test.step('start on "Erfassen"', async () => {
-      await expect(appShell.page).toHaveURL(/\/vocabulary$/);
-      await expect(appShell.heading).toHaveText('Wortliste');
+      await expect(navigation.page).toHaveURL(/\/vocabulary$/);
+      await expect(navigation.heading).toHaveText('Wortliste');
     });
 
     await test.step('show "Trainieren" as selected tab with its page title', async () => {
-      await appShell.openSection('Trainieren');
+      await navigation.openSection('Trainieren');
 
-      await expect(appShell.page).toHaveTitle('Trainieren · Wortschatz-Trainer');
-      await expect(appShell.tab('Trainieren')).toHaveAttribute('aria-selected', 'true');
+      await expect(navigation.page).toHaveTitle('Trainieren · Wortschatz-Trainer');
+      await expect(navigation.tab('Trainieren')).toHaveAttribute('aria-selected', 'true');
     });
 
     await test.step('show the heading of "Prüfung"', async () => {
-      await appShell.openSection('Prüfung');
+      await navigation.openSection('Prüfung');
 
-      await expect(appShell.heading).toHaveText('Prüfung');
+      await expect(navigation.heading).toHaveText('Prüfung');
     });
   });
 });

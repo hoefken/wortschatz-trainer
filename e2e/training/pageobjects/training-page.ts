@@ -1,5 +1,4 @@
 import { Locator, Page, test } from '@playwright/test';
-import { AppShell } from '../../util/pageobjects/app-shell';
 
 export class TrainingPage {
   readonly correctCount: Locator;
@@ -10,7 +9,6 @@ export class TrainingPage {
   readonly feedback: Locator;
   readonly emptyState: Locator;
   readonly vocabularyLink: Locator;
-  private readonly appShell: AppShell;
 
   constructor(readonly page: Page) {
     this.correctCount = page.getByText(/^\d+ richtig$/);
@@ -21,11 +19,6 @@ export class TrainingPage {
     this.feedback = page.getByRole('status');
     this.emptyState = page.getByRole('heading', { name: 'Noch keine Wörter zum Üben' });
     this.vocabularyLink = page.getByRole('link', { name: 'Zu „Erfassen“' });
-    this.appShell = new AppShell(page);
-  }
-
-  async open(): Promise<void> {
-    await this.appShell.openSection('Trainieren');
   }
 
   async answer(answer: string): Promise<void> {

@@ -1,40 +1,39 @@
 import { expect } from '@playwright/test';
-import { AppShell } from '../util/pageobjects/app-shell';
+import { Navigation } from '../util/pageobjects/navigation';
+import { Domain } from '../util/pageobjects/domain';
 import { SAMPLE_COUNT, SOLUTIONS } from '../util/sample-words';
-import { VocabularyPage } from '../vocabulary/pageobjects/vocabulary-page';
-import { fixtureExam } from './fixture-exam';
+import { fixtureBase } from '../util/fixture-base';
 import { ExamPage } from './pageobjects/exam-page';
 
-const test = fixtureExam;
+const test = fixtureBase;
 
 test.describe('Section "Prüfung"', () => {
-  let appShell: AppShell;
-  let vocabularyPage: VocabularyPage;
+  let navigation: Navigation;
+  let domain: Domain;
   let examPage: ExamPage;
 
-  test.beforeEach(async ({ appShell: shell, vocabularyPage: vocabulary, examPage: exam }) => {
-    appShell = shell;
-    vocabularyPage = vocabulary;
+  test.beforeEach(async ({ navigation: nav, domain: steps, examPage: exam }) => {
+    navigation = nav;
+    domain = steps;
     examPage = exam;
   });
 
   test('links to "Erfassen" while there are no word pairs', async () => {
-    await examPage.open();
+    await navigation.openSection('Prüfung');
 
     await expect(examPage.emptyState).toBeVisible();
   });
 
   test.describe('with "Beispieldaten"', () => {
     test.beforeEach(async () => {
-      await vocabularyPage.addSamples();
-      await examPage.open();
+      await domain.addSamples();
+      await navigation.openSection('Prüfung');
     });
 
     test('asks each chosen word once and shows the result', async () => {
       const asked: string[] = [];
 
-      await examPage.setCount(3);
-      await examPage.start();
+      await examPage.start(3);
 
       // One right, one wrong, one left empty.
       for (const [index, answer] of ['right', 'wrong', ''].entries()) {
@@ -57,8 +56,7 @@ test.describe('Section "Prüfung"', () => {
     });
 
     test('passes when enough answers are right', async () => {
-      await examPage.setCount(2);
-      await examPage.start();
+      await examPage.start(2);
 
       for (const position of [1, 2]) {
         await test.step(`answer question ${position} right`, async () => {
@@ -75,8 +73,7 @@ test.describe('Section "Prüfung"', () => {
 
     test('checks the number of words and shows the pass mark', async () => {
       await test.step('reject more words than there are', async () => {
-        await examPage.setCount(SAMPLE_COUNT + 1);
-        await examPage.start();
+        await examPage.start(SAMPLE_COUNT + 1);
 
         await expect(examPage.errors).toHaveText([`Höchstens ${SAMPLE_COUNT} Wörter.`]);
         await expect(examPage.progress).toBeHidden();
@@ -96,8 +93,8 @@ test.describe('Section "Prüfung"', () => {
       await examPage.start();
 
       await test.step('tabs are locked, going back stays in the exam', async () => {
-        await expect(appShell.tab('Erfassen')).toBeDisabled();
-        await expect(appShell.tab('Trainieren')).toBeDisabled();
+        await expect(navigation.tab('Erfassen')).toBeDisabled();
+        await expect(navigation.tab('Trainieren')).toBeDisabled();
 
         await examPage.page.goBack();
 
@@ -105,18 +102,16 @@ test.describe('Section "Prüfung"', () => {
       });
 
       await test.step('keep going after "Weiter prüfen"', async () => {
-        await examPage.cancel();
-        await examPage.cancelDialog.confirm('Weiter prüfen');
+        await examPage.cancel('Weiter prüfen');
 
         await expect(examPage.progress).toBeVisible();
       });
 
       await test.step('cancel and unlock the tabs', async () => {
-        await examPage.cancel();
-        await examPage.cancelDialog.confirm('Abbrechen');
+        await examPage.cancel('Abbrechen');
 
         await expect(examPage.countInput).toBeVisible();
-        await expect(appShell.tab('Erfassen')).toBeEnabled();
+        await expect(navigation.tab('Erfassen')).toBeEnabled();
       });
     });
   });

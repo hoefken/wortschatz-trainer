@@ -1,10 +1,10 @@
 import { expect } from '@playwright/test';
-import { fixtureVocabulary } from './fixture-vocabulary';
+import { fixtureBase } from '../util/fixture-base';
 import { VocabularyPage } from './pageobjects/vocabulary-page';
 import { WordPairDialog } from './pageobjects/word-pair-dialog';
 import { WordPairTable } from './pageobjects/word-pair-table';
 
-const test = fixtureVocabulary;
+const test = fixtureBase;
 
 // Not part of the sample data, so it never collides with it.
 const WORD_PAIR = { source: 'Bahnhof', target: 'station' };
@@ -22,18 +22,14 @@ test.describe('Section "Erfassen"', () => {
 
   test('adds, edits and deletes a word pair', async () => {
     await test.step('add a word pair', async () => {
-      await vocabularyPage.openAddDialog();
-      await wordPairDialog.fill(WORD_PAIR.source, WORD_PAIR.target);
-      await wordPairDialog.submitWithEnter();
+      await vocabularyPage.addWordPair(WORD_PAIR.source, WORD_PAIR.target);
 
       await expect(table.row(WORD_PAIR.source)).toContainText(WORD_PAIR.target);
       await expect(vocabularyPage.count).toHaveText('1 Wortpaar');
     });
 
     await test.step('edit its translation', async () => {
-      await vocabularyPage.openEditDialog(WORD_PAIR.source);
-      await wordPairDialog.fillTarget('train station');
-      await wordPairDialog.submit();
+      await vocabularyPage.editWordPair(WORD_PAIR.source, 'train station');
 
       await expect(table.row(WORD_PAIR.source)).toContainText('train station');
     });
@@ -49,9 +45,7 @@ test.describe('Section "Erfassen"', () => {
     await vocabularyPage.addSamples();
 
     await test.step('try to add "haus" next to the sample word "Haus"', async () => {
-      await vocabularyPage.openAddDialog();
-      await wordPairDialog.fill('haus', 'home');
-      await wordPairDialog.submit();
+      await vocabularyPage.addWordPair('haus', 'home');
 
       await expect(wordPairDialog.errors).toHaveText(['Dieses Wort ist bereits erfasst.']);
       await expect(vocabularyPage.count).toHaveText('9 Wortpaare');

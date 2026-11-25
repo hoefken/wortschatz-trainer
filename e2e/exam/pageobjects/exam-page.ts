@@ -1,5 +1,4 @@
 import { Locator, Page, test } from '@playwright/test';
-import { AppShell } from '../../util/pageobjects/app-shell';
 import { ConfirmDialog } from '../../util/pageobjects/confirm-dialog';
 
 export class ExamPage {
@@ -15,7 +14,6 @@ export class ExamPage {
   readonly mistakes: Locator;
   readonly emptyState: Locator;
   readonly cancelDialog: ConfirmDialog;
-  private readonly appShell: AppShell;
 
   constructor(readonly page: Page) {
     this.countInput = page.getByRole('spinbutton', { name: 'Anzahl Wörter' });
@@ -30,11 +28,6 @@ export class ExamPage {
     this.mistakes = page.getByRole('listitem');
     this.emptyState = page.getByRole('heading', { name: 'Noch keine Wörter für eine Prüfung' });
     this.cancelDialog = new ConfirmDialog(page);
-    this.appShell = new AppShell(page);
-  }
-
-  async open(): Promise<void> {
-    await this.appShell.openSection('Prüfung');
   }
 
   async setCount(count: number): Promise<void> {
@@ -43,7 +36,10 @@ export class ExamPage {
     });
   }
 
-  async start(): Promise<void> {
+  async start(count?: number): Promise<void> {
+    if (count !== undefined) {
+      await this.setCount(count);
+    }
     await test.step('click "Prüfung starten"', async () => {
       await this.page.getByRole('button', { name: 'Prüfung starten' }).click();
     });
@@ -56,9 +52,10 @@ export class ExamPage {
     });
   }
 
-  async cancel(): Promise<void> {
-    await test.step('click "Prüfung abbrechen"', async () => {
+  async cancel(confirmLabel: string): Promise<void> {
+    await test.step(`click "Prüfung abbrechen" and confirm "${confirmLabel}"`, async () => {
       await this.page.getByRole('button', { name: 'Prüfung abbrechen' }).click();
+      await this.cancelDialog.confirm(confirmLabel);
     });
   }
 }

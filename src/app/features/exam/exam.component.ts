@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
-import { TermService } from '../../terms/term.service';
+import { TermService } from '../../term/term.service';
 import { ExamQuestion } from './exam-question/exam-question.component';
 import { ExamSummary } from './exam-summary/exam-summary.component';
 import { ExamSession } from './exam-session';

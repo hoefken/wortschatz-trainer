@@ -6,8 +6,8 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldHarness } from '@angular/material/form-field/testing';
 import { MatInputHarness } from '@angular/material/input/testing';
-import { TermService } from '../../../terms/term.service';
-import { WordPairDialog } from './word-pair-dialog.component';
+import { TermService } from '../../../term/term.service';
+import { WordPairDialog } from './word-pair.dialog';
 
 describe('WordPairDialog', () => {
   let loader: HarnessLoader;

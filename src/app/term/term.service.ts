@@ -1,6 +1,6 @@
 import { computed, Service, signal } from '@angular/core';
 import { Language } from './language';
-import { isSameWord } from './same-word';
+import { isSameWord } from './is-same-word';
 import { SAMPLE_TERMS } from './sample-terms';
 import { Term, Translations } from './term';
 import { UnsavedWordPair, WordPair } from './word-pair';

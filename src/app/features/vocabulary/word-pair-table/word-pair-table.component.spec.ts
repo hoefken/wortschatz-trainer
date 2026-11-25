@@ -3,7 +3,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSortHarness } from '@angular/material/sort/testing';
 import { MatTableHarness } from '@angular/material/table/testing';
-import { TermService } from '../../../terms/term.service';
+import { TermService } from '../../../term/term.service';
 import { WordPairTable } from './word-pair-table.component';
 
 class GermanSwedishTermService extends TermService {

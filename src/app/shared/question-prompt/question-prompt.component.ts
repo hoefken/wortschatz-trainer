@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { Question } from '../../terms/question';
+import { Question } from '../../term/question';
 
 @Component({
   imports: [MatIcon],

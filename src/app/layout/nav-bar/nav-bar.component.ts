@@ -3,7 +3,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTabNavPanel, MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ExamSession } from '../../features/exam/exam-session';
-import { TermService } from '../../terms/term.service';
+import { TermService } from '../../term/term.service';
 
 @Component({
   imports: [MatIcon, MatTabsModule, RouterLink, RouterLinkActive],

@@ -6,7 +6,7 @@ import { provideRouter, Router } from '@angular/router';
 import { Layout } from './layout.component';
 import { routes } from '../app.routes';
 import { ExamSession } from '../features/exam/exam-session';
-import { TermService } from '../terms/term.service';
+import { TermService } from '../term/term.service';
 
 describe('Layout', () => {
   let loader: HarnessLoader;

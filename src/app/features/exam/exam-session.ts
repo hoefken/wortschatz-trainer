@@ -1,7 +1,7 @@
 import { computed, inject, Service, signal } from '@angular/core';
-import { Question, toQuestion } from '../../terms/question';
-import { isSameWord } from '../../terms/same-word';
-import { TermService } from '../../terms/term.service';
+import { Question, toQuestion } from '../../term/question';
+import { isSameWord } from '../../term/is-same-word';
+import { TermService } from '../../term/term.service';
 
 export interface ExamSettings {
   readonly limit: number;

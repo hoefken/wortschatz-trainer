@@ -3,13 +3,10 @@ import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { lastValueFrom } from 'rxjs';
-import {
-  ConfirmDialog,
-  ConfirmDialogData,
-} from '../../shared/confirm-dialog/confirm-dialog.component';
-import { TermService } from '../../terms/term.service';
-import { UnsavedWordPair, WordPair } from '../../terms/word-pair';
-import { WordPairDialog, WordPairDialogData } from './word-pair-dialog/word-pair-dialog.component';
+import { ConfirmDialog, ConfirmDialogData } from '../../shared/dialogs/confirm.dialog';
+import { TermService } from '../../term/term.service';
+import { UnsavedWordPair, WordPair } from '../../term/word-pair';
+import { WordPairDialog, WordPairDialogData } from './word-pair-dialog/word-pair.dialog';
 import { WordPairTable } from './word-pair-table/word-pair-table.component';
 
 @Component({

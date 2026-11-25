@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TermService } from '../../terms/term.service';
+import { TermService } from '../../term/term.service';
 import { ExamSession, requiredCorrect } from './exam-session';
 
 describe('ExamSession', () => {

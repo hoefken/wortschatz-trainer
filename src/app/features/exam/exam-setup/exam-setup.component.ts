@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
-import { TermService } from '../../../terms/term.service';
+import { TermService } from '../../../term/term.service';
 import { ExamSession, requiredCorrect } from '../exam-session';
 
 @Component({

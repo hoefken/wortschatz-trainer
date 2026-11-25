@@ -4,8 +4,8 @@ import { MatButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { TermService } from '../../../terms/term.service';
-import { UnsavedWordPair, WordPair } from '../../../terms/word-pair';
+import { TermService } from '../../../term/term.service';
+import { UnsavedWordPair, WordPair } from '../../../term/word-pair';
 
 export interface WordPairDialogData {
   readonly wordPair?: WordPair;
@@ -14,8 +14,8 @@ export interface WordPairDialogData {
 @Component({
   imports: [FormField, FormRoot, MatButton, MatDialogModule, MatFormFieldModule, MatInput],
   selector: 'loco-word-pair-dialog',
-  styleUrl: './word-pair-dialog.component.scss',
-  templateUrl: './word-pair-dialog.component.html',
+  styleUrl: './word-pair.dialog.scss',
+  templateUrl: './word-pair.dialog.html',
 })
 export class WordPairDialog {
   private readonly data = inject<WordPairDialogData>(MAT_DIALOG_DATA);

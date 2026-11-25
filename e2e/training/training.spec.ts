@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { Navigation } from '../util/pageobjects/navigation';
 import { Domain } from '../util/pageobjects/domain';
-import { SOLUTIONS } from '../util/sample-words';
+import { SOLUTIONS, WRONG_ANSWER } from '../util/sample-words';
 import { fixtureBase } from '../util/fixture-base';
 import { TrainingPage } from './pageobjects/training-page';
 
@@ -59,7 +59,7 @@ test.describe('Section "Trainieren"', () => {
     });
 
     test('shows the correct word after a wrong answer', async () => {
-      await trainingPage.answer('xyz');
+      await trainingPage.answer(WRONG_ANSWER);
 
       await expect(trainingPage.feedback).toContainText('Leider falsch.');
       await expect(trainingPage.feedback).toContainText(`Richtig: ${solution}`);
@@ -75,7 +75,7 @@ test.describe('Section "Trainieren"', () => {
     });
 
     test('keeps the round and score when switching sections', async () => {
-      await trainingPage.answer('xyz');
+      await trainingPage.answer(WRONG_ANSWER);
 
       await test.step('leave for "Erfassen" and come back', async () => {
         await navigation.openSection('Erfassen');

@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { fixtureBase } from '../util/fixture-base';
+import { SAMPLE_COUNT } from '../util/sample-words';
 import { VocabularyPage } from './pageobjects/vocabulary-page';
 import { WordPairDialog } from './pageobjects/word-pair-dialog';
 import { WordPairTable } from './pageobjects/word-pair-table';
@@ -48,7 +49,7 @@ test.describe('Section "Erfassen"', () => {
       await vocabularyPage.addWordPair('haus', 'home');
 
       await expect(wordPairDialog.errors).toHaveText(['Dieses Wort ist bereits erfasst.']);
-      await expect(vocabularyPage.count).toHaveText('9 Wortpaare');
+      await expect(vocabularyPage.count).toHaveText(`${SAMPLE_COUNT} Wortpaare`);
     });
   });
 
@@ -72,7 +73,7 @@ test.describe('Section "Erfassen"', () => {
     await test.step('insert "Beispieldaten"', async () => {
       await vocabularyPage.addSamples();
 
-      await expect(vocabularyPage.count).toHaveText('9 Wortpaare');
+      await expect(vocabularyPage.count).toHaveText(`${SAMPLE_COUNT} Wortpaare`);
       await expect(vocabularyPage.samplesButton).toBeDisabled();
     });
 

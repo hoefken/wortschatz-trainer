@@ -26,6 +26,7 @@ h2 {
 
 .verdict {
   margin-block-start: 8px;
+  // Extra bottom padding makes room for the mark's label, which hangs below the bar.
   padding: 32px 32px 40px;
 
   @media (width < 600px) {
@@ -79,7 +80,7 @@ h2 {
   position: relative;
   height: 8px;
   margin-block-start: 16px;
-  border-radius: 4px;
+  border-radius: var(--mat-sys-corner-full);
   background: var(--mat-sys-surface-container-highest);
 }
 
@@ -91,14 +92,13 @@ h2 {
 
 .mark {
   position: absolute;
-  top: -6px;
+  inset-block: -6px;
   width: 2px;
-  height: 20px;
   background: var(--mat-sys-on-surface);
 
   span {
     position: absolute;
-    top: 22px;
+    top: calc(100% + 2px);
     left: 50%;
     translate: -50%;
     white-space: nowrap;
@@ -116,8 +116,9 @@ h2 {
     grid-template-columns: 1fr;
   }
 
-  div {
+  .card {
     display: flex;
+    // Shows the value above its label; the DOM keeps dt before dd.
     flex-direction: column-reverse;
     gap: 4px;
     padding: 16px;

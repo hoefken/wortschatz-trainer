@@ -1,24 +1,11 @@
 import { expect } from '@playwright/test';
 import { AppShell } from '../util/pageobjects/app-shell';
+import { SOLUTIONS } from '../util/sample-words';
 import { VocabularyPage } from '../vocabulary/pageobjects/vocabulary-page';
 import { fixtureTraining } from './fixture-training';
 import { TrainingPage } from './pageobjects/training-page';
 
 const test = fixtureTraining;
-
-// The sample data, so the expected answer can be looked up for either direction.
-const SAMPLE_WORDS = new Map([
-  ['Apfel', 'apple'],
-  ['Baum', 'tree'],
-  ['Brücke', 'bridge'],
-  ['Fenster', 'window'],
-  ['Haus', 'house'],
-  ['Katze', 'cat'],
-  ['Schlüssel', 'key'],
-  ['Wolke', 'cloud'],
-  ['Zeit', 'time'],
-]);
-const SOLUTIONS = new Map([...SAMPLE_WORDS, ...[...SAMPLE_WORDS].map(([de, en]) => [en, de])]);
 
 test.describe('Section "Trainieren"', () => {
   let appShell: AppShell;

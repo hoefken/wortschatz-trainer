@@ -1,0 +1,19 @@
+// The words behind "Beispieldaten", so a test can look up the answer in either direction.
+const SAMPLE_WORDS = new Map([
+  ['Apfel', 'apple'],
+  ['Baum', 'tree'],
+  ['Brücke', 'bridge'],
+  ['Fenster', 'window'],
+  ['Haus', 'house'],
+  ['Katze', 'cat'],
+  ['Schlüssel', 'key'],
+  ['Wolke', 'cloud'],
+  ['Zeit', 'time'],
+]);
+
+export const SAMPLE_COUNT = SAMPLE_WORDS.size;
+
+export const SOLUTIONS = new Map([
+  ...SAMPLE_WORDS,
+  ...[...SAMPLE_WORDS].map(([de, en]) => [en, de] as const),
+]);

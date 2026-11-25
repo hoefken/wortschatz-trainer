@@ -80,7 +80,7 @@ test.describe('Section "Prüfung"', () => {
       });
 
       await test.step('lower "Nötige Trefferquote" to the minimum', async () => {
-        await examPage.setCount(3);
+        await examPage.setLimit(3);
         await expect(examPage.passHint).toHaveText('Bestanden ab 3 von 3 richtigen Antworten.');
 
         await examPage.passRateSlider.press('Home');
@@ -110,7 +110,7 @@ test.describe('Section "Prüfung"', () => {
       await test.step('cancel and unlock the tabs', async () => {
         await examPage.cancel('Abbrechen');
 
-        await expect(examPage.countInput).toBeVisible();
+        await expect(examPage.limitInput).toBeVisible();
         await expect(navigation.tab('Erfassen')).toBeEnabled();
       });
     });

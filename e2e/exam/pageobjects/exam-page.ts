@@ -2,7 +2,7 @@ import { Locator, Page, test } from '@playwright/test';
 import { ConfirmDialog } from '../../util/pageobjects/confirm-dialog';
 
 export class ExamPage {
-  readonly countInput: Locator;
+  readonly limitInput: Locator;
   readonly passRateSlider: Locator;
   readonly passHint: Locator;
   readonly errors: Locator;
@@ -16,7 +16,7 @@ export class ExamPage {
   readonly cancelDialog: ConfirmDialog;
 
   constructor(readonly page: Page) {
-    this.countInput = page.getByRole('spinbutton', { name: 'Anzahl Wörter' });
+    this.limitInput = page.getByRole('spinbutton', { name: 'Anzahl Wörter' });
     this.passRateSlider = page.getByRole('slider', { name: 'Nötige Trefferquote' });
     this.passHint = page.getByText(/Bestanden ab \d+ von/);
     this.errors = page.locator('mat-error');
@@ -30,9 +30,9 @@ export class ExamPage {
     this.cancelDialog = new ConfirmDialog(page);
   }
 
-  async setCount(count: number): Promise<void> {
-    await test.step(`set "Anzahl Wörter" to ${count}`, async () => {
-      await this.countInput.fill(String(count));
+  async setLimit(limit: number): Promise<void> {
+    await test.step(`set "Anzahl Wörter" to ${limit}`, async () => {
+      await this.limitInput.fill(String(limit));
     });
   }
 
@@ -44,7 +44,7 @@ export class ExamPage {
 
   async start({ limit, passRate }: { limit?: number; passRate?: number } = {}): Promise<void> {
     if (limit !== undefined) {
-      await this.setCount(limit);
+      await this.setLimit(limit);
     }
     if (passRate !== undefined) {
       await this.setPassRate(passRate);

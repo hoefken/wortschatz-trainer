@@ -27,23 +27,23 @@ export class ExamSetup {
   protected readonly available = inject(TermService).wordPairs().length;
 
   private readonly session = inject(ExamSession);
-  private readonly model = signal<{ count: number | null; passRate: number }>({
-    count: this.available,
+  private readonly model = signal<{ limit: number | null; passRate: number }>({
+    limit: this.available,
     passRate: 80,
   });
 
   protected readonly form = form(
     this.model,
     path => {
-      required(path.count, { message: 'Bitte eine Anzahl eingeben.' });
-      min(path.count, 1, { message: 'Mindestens 1 Wort.' });
-      max(path.count, this.available, { message: `Höchstens ${this.available} Wörter.` });
+      required(path.limit, { message: 'Bitte eine Anzahl eingeben.' });
+      min(path.limit, 1, { message: 'Mindestens 1 Wort.' });
+      max(path.limit, this.available, { message: `Höchstens ${this.available} Wörter.` });
     },
     {
       submission: {
         action: async () => {
-          const { count, passRate } = this.model();
-          this.session.start({ limit: count ?? this.available, passRate });
+          const { limit, passRate } = this.model();
+          this.session.start({ limit: limit ?? this.available, passRate });
           return null;
         },
       },
@@ -51,7 +51,7 @@ export class ExamSetup {
   );
 
   protected readonly passThreshold = computed(() => {
-    const { count, passRate } = this.model();
-    return this.form.count().valid() && count ? requiredCorrect(count, passRate) : undefined;
+    const { limit, passRate } = this.model();
+    return this.form.limit().valid() && limit ? requiredCorrect(limit, passRate) : undefined;
   });
 }

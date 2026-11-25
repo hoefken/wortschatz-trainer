@@ -2,7 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatTabNavPanel, MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { ExamSession } from '../../features/exam/exam-session';
+import { ExamSession } from '../../features/exam/exam-session.service';
 import { TermService } from '../../term/term.service';
 
 @Component({

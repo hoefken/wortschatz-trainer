@@ -6,7 +6,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { QuestionPrompt } from '../../shared/question-prompt/question-prompt.component';
-import { TrainingSession } from './training-session';
+import { TrainingSession } from './training-session.service';
 
 @Component({
   imports: [

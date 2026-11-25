@@ -6,7 +6,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { TermService } from '../../../term/term.service';
-import { ExamSession, requiredCorrect } from '../exam-session';
+import { ExamSession, requiredCorrect } from '../exam-session.service';
 
 @Component({
   imports: [

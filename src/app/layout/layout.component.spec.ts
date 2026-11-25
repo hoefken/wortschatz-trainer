@@ -5,7 +5,7 @@ import { MatTabNavBarHarness } from '@angular/material/tabs/testing';
 import { provideRouter, Router } from '@angular/router';
 import { Layout } from './layout.component';
 import { routes } from '../app.routes';
-import { ExamSession } from '../features/exam/exam-session';
+import { ExamSession } from '../features/exam/exam-session.service';
 import { TermService } from '../term/term.service';
 
 describe('Layout', () => {

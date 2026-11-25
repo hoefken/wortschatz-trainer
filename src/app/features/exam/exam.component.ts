@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { TermService } from '../../term/term.service';
 import { ExamQuestion } from './exam-question/exam-question.component';
 import { ExamSummary } from './exam-summary/exam-summary.component';
-import { ExamSession } from './exam-session';
+import { ExamSession } from './exam-session.service';
 import { ExamSetup } from './exam-setup/exam-setup.component';
 
 @Component({

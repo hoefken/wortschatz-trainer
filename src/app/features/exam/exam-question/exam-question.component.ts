@@ -9,7 +9,7 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { lastValueFrom } from 'rxjs';
 import { ConfirmDialog, ConfirmDialogData } from '../../../shared/dialogs/confirm.dialog';
 import { QuestionPrompt } from '../../../shared/question-prompt/question-prompt.component';
-import { ExamSession } from '../exam-session';
+import { ExamSession } from '../exam-session.service';
 
 @Component({
   imports: [

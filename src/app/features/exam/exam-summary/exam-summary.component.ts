@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { ExamResult, ExamSession } from '../exam-session';
+import { ExamResult, ExamSession } from '../exam-session.service';
 
 @Component({
   imports: [MatButton, MatIcon, RouterLink],

@@ -25,6 +25,10 @@ export class WordPairTable {
     return this.page.getByRole('button', { name: `${source} löschen` });
   }
 
+  actionIcons(source: string): Locator {
+    return this.row(source).locator('td.mat-column-actions svg');
+  }
+
   async sortBy(language: string): Promise<void> {
     await test.step(`sort by "${language}"`, async () => {
       await this.page.getByRole('button', { name: language, exact: true }).click();

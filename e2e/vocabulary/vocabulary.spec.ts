@@ -122,14 +122,20 @@ test.describe('Section "Erfassen"', () => {
       test('shows both row actions uncut', async () => {
         await vocabularyPage.addSamples();
 
-        for (const button of [table.editButton('Apfel'), table.deleteButton('Apfel')]) {
-          await expect(button.locator('svg')).toBeInViewport({ ratio: 1 });
-        }
-        for (const cell of await table.actionCells.all()) {
-          expect(await cell.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(
-            true,
-          );
-        }
+        await test.step('both icons of a row are fully in the viewport', async () => {
+          await expect(table.actionIcons('Apfel')).toHaveCount(2);
+          for (const icon of await table.actionIcons('Apfel').all()) {
+            await expect(icon).toBeInViewport({ ratio: 1 });
+          }
+        });
+
+        await test.step('no action cell clips its content', async () => {
+          for (const cell of await table.actionCells.all()) {
+            expect(await cell.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(
+              true,
+            );
+          }
+        });
       });
     });
   }

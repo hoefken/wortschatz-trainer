@@ -1,4 +1,4 @@
-import { WordPair } from './word-pair';
+import { WordPair } from '../shared/models/word-pair';
 
 export type Translations = Readonly<Record<string, string>>;
 

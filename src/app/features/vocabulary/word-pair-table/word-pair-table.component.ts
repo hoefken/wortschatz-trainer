@@ -3,9 +3,9 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { Language } from '../../../term/language';
+import { Language } from '../../../shared/models/language';
 import { TermService } from '../../../term/term.service';
-import { WordPair } from '../../../term/word-pair';
+import { WordPair } from '../../../shared/models/word-pair';
 
 type SortColumn = 'source' | 'target';
 

@@ -1,5 +1,5 @@
 import { computed, inject, Service, signal } from '@angular/core';
-import { Question, toQuestion } from '../../term/question';
+import { Question, toQuestion } from '../../shared/models/question';
 import { isSameWord } from '../../term/is-same-word';
 import { TermService } from '../../term/term.service';
 

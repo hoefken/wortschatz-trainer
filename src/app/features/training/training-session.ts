@@ -1,8 +1,8 @@
 import { computed, inject, linkedSignal, Service, signal } from '@angular/core';
-import { Question, toQuestion } from '../../term/question';
+import { Question, toQuestion } from '../../shared/models/question';
 import { isSameWord } from '../../term/is-same-word';
 import { TermService } from '../../term/term.service';
-import { WordPair } from '../../term/word-pair';
+import { WordPair } from '../../shared/models/word-pair';
 
 export interface Result {
   readonly answer: string;

@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { TermService } from '../../../term/term.service';
-import { UnsavedWordPair, WordPair } from '../../../term/word-pair';
+import { UnsavedWordPair, WordPair } from '../../../shared/models/word-pair';
 
 export interface WordPairDialogData {
   readonly wordPair?: WordPair;

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { lastValueFrom } from 'rxjs';
 
 export interface ConfirmDialogData {
   readonly title: string;
@@ -25,4 +26,11 @@ export interface ConfirmDialogData {
 })
 export class ConfirmDialog {
   protected readonly data = inject<ConfirmDialogData>(MAT_DIALOG_DATA);
+}
+
+export async function confirm(dialog: MatDialog, data: ConfirmDialogData): Promise<boolean> {
+  const dialogRef = dialog.open<ConfirmDialog, ConfirmDialogData, boolean>(ConfirmDialog, {
+    data,
+  });
+  return (await lastValueFrom(dialogRef.afterClosed())) === true;
 }

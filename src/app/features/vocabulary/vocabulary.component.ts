@@ -3,7 +3,7 @@ import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { lastValueFrom } from 'rxjs';
-import { ConfirmDialog, ConfirmDialogData } from '../../shared/dialogs/confirm.dialog';
+import { confirm } from '../../shared/dialogs/confirm.dialog';
 import { TermService } from '../../term/term.service';
 import { UnsavedWordPair, WordPair } from '../../shared/models/word-pair';
 import { WordPairDialog, WordPairDialogData } from './word-pair-dialog/word-pair.dialog';
@@ -34,7 +34,7 @@ export class Vocabulary {
   }
 
   protected async remove({ id, source, target }: WordPair): Promise<void> {
-    const confirmed = await this.confirm({
+    const confirmed = await confirm(this.dialog, {
       title: 'Wortpaar löschen?',
       message: `„${source} – ${target}“ wird aus der Wortliste entfernt.`,
       confirmLabel: 'Löschen',
@@ -45,7 +45,7 @@ export class Vocabulary {
   }
 
   protected async reset(): Promise<void> {
-    const confirmed = await this.confirm({
+    const confirmed = await confirm(this.dialog, {
       title: 'Alles zurücksetzen?',
       message: 'Alle Wortpaare werden gelöscht. Das lässt sich nicht rückgängig machen.',
       confirmLabel: 'Alles löschen',
@@ -61,12 +61,5 @@ export class Vocabulary {
       { data },
     );
     return lastValueFrom(dialogRef.afterClosed());
-  }
-
-  private async confirm(data: ConfirmDialogData): Promise<boolean> {
-    const dialogRef = this.dialog.open<ConfirmDialog, ConfirmDialogData, boolean>(ConfirmDialog, {
-      data,
-    });
-    return (await lastValueFrom(dialogRef.afterClosed())) === true;
   }
 }

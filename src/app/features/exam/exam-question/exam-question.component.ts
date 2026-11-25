@@ -6,8 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import { lastValueFrom } from 'rxjs';
-import { ConfirmDialog, ConfirmDialogData } from '../../../shared/dialogs/confirm.dialog';
+import { confirm } from '../../../shared/dialogs/confirm.dialog';
 import { QuestionPrompt } from '../../../shared/question-prompt/question-prompt.component';
 import { ExamSession } from '../exam-session.service';
 
@@ -47,16 +46,14 @@ export class ExamQuestion {
   }
 
   protected async cancel(): Promise<void> {
-    const dialogRef = this.dialog.open<ConfirmDialog, ConfirmDialogData, boolean>(ConfirmDialog, {
-      data: {
-        title: 'Prüfung abbrechen?',
-        message:
-          'Deine bisherigen Antworten werden verworfen; es gibt kein Ergebnis. Erfassen und Trainieren sind danach wieder freigegeben.',
-        confirmLabel: 'Prüfung abbrechen',
-        cancelLabel: 'Weiter prüfen',
-      },
+    const confirmed = await confirm(this.dialog, {
+      title: 'Prüfung abbrechen?',
+      message:
+        'Deine bisherigen Antworten werden verworfen; es gibt kein Ergebnis. Erfassen und Trainieren sind danach wieder freigegeben.',
+      confirmLabel: 'Prüfung abbrechen',
+      cancelLabel: 'Weiter prüfen',
     });
-    if ((await lastValueFrom(dialogRef.afterClosed())) === true) {
+    if (confirmed) {
       this.session.reset();
     }
   }

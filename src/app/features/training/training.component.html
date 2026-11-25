@@ -17,13 +17,7 @@
 <section class="card">
   @if (question) {
     <form [formRoot]="form">
-      <p class="direction">
-        {{ question.from.name }} <mat-icon svgIcon="arrow_forward" /> {{ question.to.name }}
-      </p>
-      <div id="question">
-        <p class="prompt">Wie heißt das auf {{ question.to.name }}?</p>
-        <h2 class="word" [lang]="question.from.code">{{ question.word }}</h2>
-      </div>
+      <loco-question-prompt id="question" [question]="question" />
       <mat-form-field
         appearance="outline"
         hideRequiredMarker

@@ -5,10 +5,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
+import { QuestionPrompt } from '../../shared/question-prompt/question-prompt.component';
 import { TrainingSession } from './training-session';
 
 @Component({
-  imports: [FormField, FormRoot, MatButton, MatFormFieldModule, MatIcon, MatInput, RouterLink],
+  imports: [
+    FormField,
+    FormRoot,
+    MatButton,
+    MatFormFieldModule,
+    MatIcon,
+    MatInput,
+    QuestionPrompt,
+    RouterLink,
+  ],
   selector: 'loco-training',
   styleUrl: './training.component.scss',
   templateUrl: './training.component.html',

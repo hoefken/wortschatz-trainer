@@ -1,0 +1,41 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  margin-block-end: 24px;
+}
+
+p {
+  margin: 0;
+}
+
+.direction {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  margin-block-end: 24px;
+  padding: 4px 16px;
+  border-radius: var(--mat-sys-corner-small);
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  font: var(--mat-sys-label-large);
+
+  mat-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.prompt {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.word {
+  margin-block: 8px 0;
+  font: var(--mat-sys-display-medium);
+  overflow-wrap: anywhere;
+
+  @media (width < 600px) {
+    font: var(--mat-sys-display-small);
+  }
+}

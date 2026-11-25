@@ -61,23 +61,6 @@ form {
   }
 }
 
-.direction {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  gap: 8px;
-  padding: 4px 16px;
-  border-radius: var(--mat-sys-corner-small);
-  background: var(--mat-sys-secondary-container);
-  color: var(--mat-sys-on-secondary-container);
-  font: var(--mat-sys-label-large);
-
-  mat-icon {
-    width: 18px;
-    height: 18px;
-  }
-}
-
 .wrong-answer {
   @include mat.form-field-overrides(
     (
@@ -89,24 +72,6 @@ form {
       outlined-focus-label-text-color: var(--mat-sys-error),
     )
   );
-}
-
-#question {
-  margin-block: 24px;
-}
-
-.prompt {
-  color: var(--mat-sys-on-surface-variant);
-}
-
-.word {
-  margin-block-start: 8px;
-  font: var(--mat-sys-display-medium);
-
-  @media (width < 600px) {
-    font: var(--mat-sys-display-small);
-  }
-  overflow-wrap: anywhere;
 }
 
 .feedback {

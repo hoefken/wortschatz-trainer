@@ -33,14 +33,14 @@ p {
     width: 20px;
     height: 20px;
   }
-}
 
-.correct {
-  color: var(--app-success);
-}
+  .correct {
+    color: var(--app-success);
+  }
 
-.wrong {
-  color: var(--mat-sys-error);
+  .wrong {
+    color: var(--mat-sys-error);
+  }
 }
 
 .card {
@@ -84,7 +84,6 @@ form {
 
   &.correct {
     background: var(--app-success-container);
-    color: var(--mat-sys-on-surface);
 
     mat-icon {
       color: var(--app-success);

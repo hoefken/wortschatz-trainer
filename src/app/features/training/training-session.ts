@@ -1,15 +1,8 @@
 import { computed, inject, linkedSignal, Service, signal } from '@angular/core';
-import { Language } from '../../terms/language';
+import { Question, toQuestion } from '../../terms/question';
 import { isSameWord } from '../../terms/same-word';
 import { TermService } from '../../terms/term.service';
 import { WordPair } from '../../terms/word-pair';
-
-export interface Question {
-  readonly word: string;
-  readonly solution: string;
-  readonly from: Language;
-  readonly to: Language;
-}
 
 export interface Result {
   readonly answer: string;
@@ -35,10 +28,7 @@ export class TrainingSession {
     if (!round || !pair) {
       return undefined;
     }
-    const { sourceLanguage, targetLanguage } = this.terms;
-    return round.reversed
-      ? { word: pair.target, solution: pair.source, from: targetLanguage, to: sourceLanguage }
-      : { word: pair.source, solution: pair.target, from: sourceLanguage, to: targetLanguage };
+    return toQuestion(pair, this.terms.sourceLanguage, this.terms.targetLanguage, round.reversed);
   });
 
   readonly result = computed(() => this.round()?.result);

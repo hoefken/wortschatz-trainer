@@ -33,7 +33,7 @@ test.describe('Section "Prüfung"', () => {
     test('asks each chosen word once and shows the result', async () => {
       const asked: string[] = [];
 
-      await examPage.start(3);
+      await examPage.start({ limit: 3 });
 
       // One right, one wrong, one left empty.
       for (const [index, answer] of ['right', 'wrong', ''].entries()) {
@@ -56,7 +56,7 @@ test.describe('Section "Prüfung"', () => {
     });
 
     test('passes when enough answers are right', async () => {
-      await examPage.start(2);
+      await examPage.start({ limit: 2 });
 
       for (const position of [1, 2]) {
         await test.step(`answer question ${position} right`, async () => {
@@ -73,7 +73,7 @@ test.describe('Section "Prüfung"', () => {
 
     test('checks the number of words and shows the pass mark', async () => {
       await test.step('reject more words than there are', async () => {
-        await examPage.start(SAMPLE_COUNT + 1);
+        await examPage.start({ limit: SAMPLE_COUNT + 1 });
 
         await expect(examPage.errors).toHaveText([`Höchstens ${SAMPLE_COUNT} Wörter.`]);
         await expect(examPage.progress).toBeHidden();

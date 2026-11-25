@@ -36,9 +36,18 @@ export class ExamPage {
     });
   }
 
-  async start(count?: number): Promise<void> {
-    if (count !== undefined) {
-      await this.setCount(count);
+  async setPassRate(percent: number): Promise<void> {
+    await test.step(`set "Nötige Trefferquote" to ${percent} %`, async () => {
+      await this.passRateSlider.fill(String(percent));
+    });
+  }
+
+  async start({ limit, passRate }: { limit?: number; passRate?: number } = {}): Promise<void> {
+    if (limit !== undefined) {
+      await this.setCount(limit);
+    }
+    if (passRate !== undefined) {
+      await this.setPassRate(passRate);
     }
     await test.step('click "Prüfung starten"', async () => {
       await this.page.getByRole('button', { name: 'Prüfung starten' }).click();

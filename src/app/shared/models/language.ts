@@ -1,4 +1,6 @@
+export type LanguageCode = string;
+
 export interface Language {
-  readonly code: string;
+  readonly code: LanguageCode;
   readonly name: string;
 }

@@ -1,6 +1,7 @@
+import { LanguageCode } from '../shared/models/language';
 import { WordPair } from '../shared/models/word-pair';
 
-export type Translations = Readonly<Record<string, string>>;
+export type Translations = Readonly<Record<LanguageCode, string>>;
 
 export class Term {
   constructor(
@@ -21,7 +22,7 @@ export class Term {
     return new Term(this.id, { ...this.translations, ...translations });
   }
 
-  toWordPair(sourceLanguage: string, targetLanguage: string): WordPair | undefined {
+  toWordPair(sourceLanguage: LanguageCode, targetLanguage: LanguageCode): WordPair | undefined {
     const source = this.translations[sourceLanguage];
     const target = this.translations[targetLanguage];
     return source === undefined || target === undefined

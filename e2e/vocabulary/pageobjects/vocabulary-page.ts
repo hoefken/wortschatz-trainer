@@ -13,7 +13,7 @@ export class VocabularyPage {
   readonly wordPairDialog: WordPairDialog;
   readonly confirmDialog: ConfirmDialog;
 
-  constructor(readonly page: Page) {
+  constructor(page: Page) {
     this.count = page.getByText(/^\d+ Wortpaare?$/);
     this.addButton = page.getByRole('button', { name: 'Hinzufügen' });
     this.samplesButton = page.getByRole('button', { name: 'Beispieldaten einfügen' });

@@ -15,7 +15,7 @@ export class ExamPage {
   readonly emptyState: Locator;
   readonly cancelDialog: ConfirmDialog;
 
-  constructor(readonly page: Page) {
+  constructor(private readonly page: Page) {
     this.limitInput = page.getByRole('spinbutton', { name: 'Anzahl Wörter' });
     this.passRateSlider = page.getByRole('slider', { name: 'Nötige Trefferquote' });
     this.passHint = page.getByText(/Bestanden ab \d+ von/);
@@ -36,18 +36,15 @@ export class ExamPage {
     });
   }
 
-  async setPassRate(percent: number): Promise<void> {
-    await test.step(`set "Nötige Trefferquote" to ${percent} %`, async () => {
-      await this.passRateSlider.fill(String(percent));
+  async setPassRateToMinimum(): Promise<void> {
+    await test.step('move "Nötige Trefferquote" to its minimum with Home', async () => {
+      await this.passRateSlider.press('Home');
     });
   }
 
-  async start({ limit, passRate }: { limit?: number; passRate?: number } = {}): Promise<void> {
+  async start({ limit }: { limit?: number } = {}): Promise<void> {
     if (limit !== undefined) {
       await this.setLimit(limit);
-    }
-    if (passRate !== undefined) {
-      await this.setPassRate(passRate);
     }
     await test.step('click "Prüfung starten"', async () => {
       await this.page.getByRole('button', { name: 'Prüfung starten' }).click();

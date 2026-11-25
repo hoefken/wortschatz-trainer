@@ -10,7 +10,7 @@ export class TrainingPage {
   readonly emptyState: Locator;
   readonly vocabularyLink: Locator;
 
-  constructor(readonly page: Page) {
+  constructor(private readonly page: Page) {
     this.correctCount = page.getByText(/^\d+ richtig$/);
     this.wrongCount = page.getByText(/^\d+ falsch$/);
     this.word = page.getByRole('heading', { level: 2 });

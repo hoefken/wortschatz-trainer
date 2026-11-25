@@ -87,7 +87,7 @@ test.describe('Section "Prüfung"', () => {
         await examPage.setLimit(3);
         await expect(examPage.passHint).toHaveText('Bestanden ab 3 von 3 richtigen Antworten.');
 
-        await examPage.passRateSlider.press('Home');
+        await examPage.setPassRateToMinimum();
 
         await expect(examPage.passHint).toHaveText('Bestanden ab 1 von 3 richtigen Antworten.');
       });
@@ -100,7 +100,7 @@ test.describe('Section "Prüfung"', () => {
         await expect(navigation.tab('Erfassen')).toBeDisabled();
         await expect(navigation.tab('Trainieren')).toBeDisabled();
 
-        await examPage.page.goBack();
+        await navigation.goBack();
 
         await expect(examPage.progress).toHaveText(`Frage 1 von ${SAMPLE_COUNT}`);
       });

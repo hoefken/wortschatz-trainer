@@ -22,4 +22,10 @@ export class Navigation {
       await this.page.reload();
     });
   }
+
+  async goBack(): Promise<void> {
+    await test.step('go back in the browser history', async () => {
+      await this.page.goBack();
+    });
+  }
 }

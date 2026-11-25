@@ -50,8 +50,11 @@ export class ExamSetup {
     },
   );
 
-  protected readonly passThreshold = computed(() => {
+  protected readonly requiredCorrectAnswers = computed(() => {
     const { limit, passRate } = this.model();
-    return this.form.limit().valid() && limit ? requiredCorrect(limit, passRate) : undefined;
+    if (limit === null || !this.form.limit().valid()) {
+      return undefined;
+    }
+    return requiredCorrect(limit, passRate);
   });
 }

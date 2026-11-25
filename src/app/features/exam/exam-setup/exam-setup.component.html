@@ -21,8 +21,8 @@
       />
     </mat-slider>
     <p id="pass-rate-hint" class="hint">
-      @if (passThreshold(); as threshold) {
-        Bestanden ab {{ threshold }} von {{ form.limit().value() }} richtigen Antworten.
+      @if (requiredCorrectAnswers(); as required) {
+        Bestanden ab {{ required }} von {{ form.limit().value() }} richtigen Antworten.
       }
     </p>
   </div>

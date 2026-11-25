@@ -60,7 +60,7 @@ test.describe('Section "Trainieren"', () => {
       });
     });
 
-    test('shows the correct word after a wrong answer', async () => {
+    test('shows the correct word and the repeat hint after a wrong answer', async () => {
       await trainingPage.answer(WRONG_ANSWER);
 
       await expect(trainingPage.feedback).toContainText('Leider falsch.');

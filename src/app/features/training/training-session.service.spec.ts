@@ -9,6 +9,8 @@ describe('TrainingSession', () => {
   let random: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
+    // Each round calls Math.random twice: first to draw the word pair, then for the
+    // direction (>= 0.5 asks from the target language).
     random = vi.spyOn(Math, 'random').mockReturnValue(0);
     terms = TestBed.inject(TermService);
     session = TestBed.inject(TrainingSession);
@@ -90,18 +92,20 @@ describe('TrainingSession', () => {
     expect(session.question()?.word).toBe('Haus');
   });
 
-  it('lowers the weight again after a right answer', () => {
+  it('asks a missed word pair at the normal rate again after a right answer', () => {
     terms.add({ source: 'Haus', target: 'house' });
     terms.add({ source: 'Baum', target: 'tree' });
     terms.add({ source: 'Katze', target: 'cat' });
     session.check('xyz');
     session.next();
+
     random.mockReturnValueOnce(0.7);
     session.next();
     session.check('house');
     session.next();
     expect(session.question()?.word).toBe('Baum');
 
+    // Same draw as in the test above, now without the extra ticket: 0.7 picks Katze.
     random.mockReturnValueOnce(0.7);
     session.next();
 

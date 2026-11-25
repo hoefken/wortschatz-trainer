@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { QUESTION_DIRECTION } from '../../shared/question-direction';
 import { TermService } from '../../term/term.service';
 import { ExamSession, requiredCorrect } from './exam-session.service';
 
@@ -105,5 +106,28 @@ describe('ExamSession', () => {
   it('rounds the required number of right answers up', () => {
     expect(requiredCorrect(9, 80)).toBe(8);
     expect(requiredCorrect(10, 70)).toBe(7);
+  });
+});
+
+describe('ExamSession with one direction per session', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('asks every question in the direction rolled at the start', () => {
+    vi.spyOn(Math, 'random').mockReturnValueOnce(0.7).mockReturnValue(0);
+    TestBed.configureTestingModule({
+      providers: [{ provide: QUESTION_DIRECTION, useValue: 'per-session' }],
+    });
+    const terms = TestBed.inject(TermService);
+    const session = TestBed.inject(ExamSession);
+    terms.add({ source: 'Haus', target: 'house' });
+    terms.add({ source: 'Baum', target: 'tree' });
+
+    session.start({ limit: 2, passRate: 80 });
+
+    expect(session.question()?.from).toBe(terms.targetLanguage);
+    session.answer('x');
+    expect(session.question()?.from).toBe(terms.targetLanguage);
   });
 });

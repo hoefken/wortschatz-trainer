@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { QUESTION_DIRECTION } from '../../shared/question-direction';
 import { TermService } from '../../term/term.service';
 import { TrainingSession } from './training-session.service';
 
@@ -98,5 +99,26 @@ describe('TrainingSession', () => {
     expect(session.question()?.word).toBe('Baum');
     expect(session.result()).toBeUndefined();
     expect(session.score()).toEqual({ correct: 1, wrong: 0 });
+  });
+});
+
+describe('TrainingSession with one direction per session', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('keeps the direction rolled at the start for every round', () => {
+    vi.spyOn(Math, 'random').mockReturnValueOnce(0.7).mockReturnValue(0);
+    TestBed.configureTestingModule({
+      providers: [{ provide: QUESTION_DIRECTION, useValue: 'per-session' }],
+    });
+    const terms = TestBed.inject(TermService);
+    const session = TestBed.inject(TrainingSession);
+    terms.add({ source: 'Haus', target: 'house' });
+    terms.add({ source: 'Baum', target: 'tree' });
+
+    expect(session.question()?.from).toBe(terms.targetLanguage);
+    session.next();
+    expect(session.question()?.from).toBe(terms.targetLanguage);
   });
 });

@@ -1,5 +1,6 @@
 import { computed, inject, Service, signal } from '@angular/core';
 import { Question, toQuestion } from '../../shared/models/question';
+import { directionPicker, QUESTION_DIRECTION } from '../../shared/question-direction';
 import { isSameWord } from '../../term/is-same-word';
 import { TermService } from '../../term/term.service';
 
@@ -36,6 +37,7 @@ interface Exam {
 @Service()
 export class ExamSession {
   private readonly terms = inject(TermService);
+  private readonly direction = inject(QUESTION_DIRECTION);
   private readonly exam = signal<Exam | undefined>(undefined);
 
   readonly running = computed(() => {
@@ -95,10 +97,11 @@ export class ExamSession {
 
   private generateQuestions(limit: number): Question[] {
     const { sourceLanguage, targetLanguage } = this.terms;
+    const nextReversed = directionPicker(this.direction);
     return this.terms
       .shuffledWordPairs()
       .slice(0, limit)
-      .map(pair => toQuestion(pair, sourceLanguage, targetLanguage, Math.random() >= 0.5));
+      .map(pair => toQuestion(pair, sourceLanguage, targetLanguage, nextReversed()));
   }
 }
 

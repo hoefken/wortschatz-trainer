@@ -26,7 +26,7 @@ export interface ExamResult {
   readonly duration: number;
 }
 
-interface Exam {
+interface ExamAttempt {
   readonly questions: readonly Question[];
   readonly answers: readonly ExamAnswer[];
   readonly passRate: number;
@@ -38,7 +38,7 @@ interface Exam {
 export class ExamSession {
   private readonly terms = inject(TermService);
   private readonly direction = inject(QUESTION_DIRECTION);
-  private readonly exam = signal<Exam | undefined>(undefined);
+  private readonly exam = signal<ExamAttempt | undefined>(undefined);
 
   readonly running = computed(() => {
     const exam = this.exam();

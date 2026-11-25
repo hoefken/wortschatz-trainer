@@ -17,11 +17,11 @@ describe('ExamSession', () => {
     terms.add({ source: 'Zeit', target: 'time' });
   });
 
-  function answerAll(answer: (solution: string) => string): string[] {
+  function answerAll(answer: (solution: string, index: number) => string): string[] {
     const asked: string[] = [];
     for (let question = session.question(); question; question = session.question()) {
+      session.answer(answer(question.solution, asked.length));
       asked.push(question.word);
-      session.answer(answer(question.solution));
     }
     return asked;
   }
@@ -65,11 +65,10 @@ describe('ExamSession', () => {
     expect(session.question()).toBeUndefined();
   });
 
-  it('passes when enough answers are right, ignoring case and spaces', () => {
+  it('reports the result of a passed exam, matching answers ignoring case and spaces', () => {
     vi.spyOn(Date, 'now').mockReturnValueOnce(1_000).mockReturnValueOnce(162_000);
     session.start({ limit: 3, passRate: 60 });
-    let index = 0;
-    answerAll(solution => (index++ < 2 ? ` ${solution.toUpperCase()} ` : ''));
+    answerAll((solution, index) => (index < 2 ? ` ${solution.toUpperCase()} ` : ''));
 
     expect(session.result()).toEqual({
       total: 3,
@@ -85,8 +84,7 @@ describe('ExamSession', () => {
 
   it('fails below the pass rate', () => {
     session.start({ limit: 3, passRate: 80 });
-    let index = 0;
-    answerAll(solution => (index++ < 2 ? solution : 'x'));
+    answerAll((solution, index) => (index < 2 ? solution : 'x'));
 
     expect(session.result()?.passed).toBe(false);
   });
@@ -98,9 +96,15 @@ describe('ExamSession', () => {
     expect(session.running()).toBe(false);
     expect(session.result()).toBeUndefined();
   });
+});
 
+describe('requiredCorrect', () => {
   it('rounds the required number of right answers up', () => {
     expect(requiredCorrect(9, 80)).toBe(8);
+  });
+
+  it('keeps an exact pass mark despite floating point', () => {
+    // 0.7 * 10 is 7.000000000000001, which would round up to 8.
     expect(requiredCorrect(10, 70)).toBe(7);
   });
 });

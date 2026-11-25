@@ -5,12 +5,12 @@ import { isSameWord } from '../../term/is-same-word';
 import { TermService } from '../../term/term.service';
 import { WordPair } from '../../shared/models/word-pair';
 
-export interface Result {
+export interface TrainingAnswer {
   readonly answer: string;
   readonly correct: boolean;
 }
 
-export interface Score {
+export interface TrainingScore {
   readonly correct: number;
   readonly wrong: number;
 }
@@ -18,7 +18,7 @@ export interface Score {
 interface Round {
   readonly pairId: string;
   readonly reversed: boolean;
-  readonly result?: Result;
+  readonly result?: TrainingAnswer;
 }
 
 @Service()
@@ -36,7 +36,7 @@ export class TrainingSession {
   readonly score = computed(() => this.tally());
 
   private readonly terms = inject(TermService);
-  private readonly tally = signal<Score>({ correct: 0, wrong: 0 });
+  private readonly tally = signal<TrainingScore>({ correct: 0, wrong: 0 });
 
   // One entry per open miss: each is an extra ticket for that word pair in the draw.
   private readonly extraTickets = signal<readonly string[]>([]);

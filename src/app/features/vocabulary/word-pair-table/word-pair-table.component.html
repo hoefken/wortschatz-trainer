@@ -2,8 +2,8 @@
   mat-table
   [dataSource]="rows()"
   matSort
-  matSortActive="source"
-  matSortDirection="asc"
+  [matSortActive]="sort().active"
+  [matSortDirection]="sort().direction"
   matSortDisableClear
   (matSortChange)="sort.set($event)"
 >

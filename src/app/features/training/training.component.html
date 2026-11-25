@@ -43,7 +43,10 @@
               <mat-icon svgIcon="check_circle" />
               <div>
                 <p class="title">Richtig!</p>
-                <p>{{ question.word }} = {{ question.solution }}</p>
+                <p>
+                  <span [lang]="question.from.code">{{ question.word }}</span> =
+                  <span [lang]="question.to.code">{{ question.solution }}</span>
+                </p>
               </div>
             </div>
           } @else {

@@ -63,14 +63,14 @@ export class VocabularyPage {
   async deleteWordPair(source: string): Promise<void> {
     await test.step(`delete "${source}" and confirm`, async () => {
       await this.table.deleteButton(source).click();
-      await this.confirmDialog.confirm('Löschen');
+      await this.confirmDialog.choose('Löschen');
     });
   }
 
   async resetAll(): Promise<void> {
     await test.step('click "Alles zurücksetzen" and confirm', async () => {
       await this.resetButton.click();
-      await this.confirmDialog.confirm('Alles löschen');
+      await this.confirmDialog.choose('Alles löschen');
     });
   }
 }

@@ -7,8 +7,8 @@ export class ConfirmDialog {
     this.root = page.getByRole('dialog');
   }
 
-  async confirm(label: string): Promise<void> {
-    await test.step(`confirm with "${label}"`, async () => {
+  async choose(label: string): Promise<void> {
+    await test.step(`choose "${label}"`, async () => {
       await this.root.getByRole('button', { name: label }).click();
     });
   }

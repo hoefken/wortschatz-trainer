@@ -58,10 +58,10 @@ export class ExamPage {
     });
   }
 
-  async cancel(confirmLabel: string): Promise<void> {
-    await test.step(`click "Prüfung abbrechen" and confirm "${confirmLabel}"`, async () => {
+  async cancel(choice: string): Promise<void> {
+    await test.step(`click "Prüfung abbrechen" and choose "${choice}"`, async () => {
       await this.page.getByRole('button', { name: 'Prüfung abbrechen' }).click();
-      await this.cancelDialog.confirm(confirmLabel);
+      await this.cancelDialog.choose(choice);
     });
   }
 }

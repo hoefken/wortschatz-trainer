@@ -18,7 +18,7 @@ test.describe('Section "Prüfung"', () => {
     examPage = exam;
   });
 
-  test('links to "Erfassen" while there are no word pairs', async () => {
+  test('shows the empty state while there are no word pairs', async () => {
     await navigation.openSection('Prüfung');
 
     await expect(examPage.emptyState).toBeVisible();

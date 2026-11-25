@@ -26,6 +26,7 @@ import { TrainingSession } from './training-session.service';
 export class Training {
   protected readonly session = inject(TrainingSession);
 
+  // The session outlives this component: coming back to the tab shows the checked answer again.
   private readonly model = signal({ answer: this.session.checkedAnswer()?.answer ?? '' });
 
   protected readonly form = form(

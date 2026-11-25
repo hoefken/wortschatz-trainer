@@ -61,6 +61,7 @@ form {
   }
 }
 
+// A wrong answer is not a validation error, so Material's own error state does not apply.
 .wrong-answer {
   @include mat.form-field-overrides(
     (

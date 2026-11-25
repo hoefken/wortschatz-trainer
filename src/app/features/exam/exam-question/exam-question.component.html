@@ -1,8 +1,6 @@
 @let question = session.question();
 
-<header>
-  <h1>Frage {{ session.position() }} von {{ session.total() }}</h1>
-</header>
+<h1>Frage {{ session.position() }} von {{ session.total() }}</h1>
 <mat-progress-bar
   mode="determinate"
   [value]="(session.position() * 100) / session.total()"

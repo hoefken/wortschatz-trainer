@@ -8,6 +8,15 @@ export interface Question {
   readonly to: Language;
 }
 
+/**
+ * Macht aus einem Wortpaar eine Frage in einer der beiden Abfragerichtungen.
+ *
+ * @param pair - Das abgefragte Wortpaar.
+ * @param sourceLanguage - Sprache Von.
+ * @param targetLanguage - Sprache Zu.
+ * @param reversed - Kehrt die Abfragerichtung um. Standard: von der
+ *   Ausgangs- in die Zielsprache (`source` wird gezeigt, `target` erwartet).
+ */
 export function toQuestion(
   { source, target }: WordPair,
   sourceLanguage: Language,

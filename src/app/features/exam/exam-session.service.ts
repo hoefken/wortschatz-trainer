@@ -23,7 +23,7 @@ export interface ExamResult {
   readonly passRate: number;
   readonly passed: boolean;
   readonly mistakes: readonly ExamAnswer[];
-  readonly duration: number;
+  readonly durationMs: number;
 }
 
 interface ExamAttempt {
@@ -68,7 +68,7 @@ export class ExamSession {
       passRate,
       passed: correct >= requiredCorrect(answers.length, passRate),
       mistakes: answers.filter(answer => !answer.correct),
-      duration: exam.finishedAt - exam.startedAt,
+      durationMs: exam.finishedAt - exam.startedAt,
     };
   });
 

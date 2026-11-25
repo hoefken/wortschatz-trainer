@@ -83,7 +83,7 @@ describe('ExamSession', () => {
       passRate: 60,
       passed: true,
       mistakes: [expect.objectContaining({ answer: '', correct: false })],
-      duration: 161_000,
+      durationMs: 161_000,
     });
   });
 

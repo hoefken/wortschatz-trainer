@@ -65,13 +65,14 @@
         }
       </div>
       <div class="actions">
-        <span class="hint">{{ checked ? 'Enter – weiter' : 'Enter prüft' }}</span>
         @if (checked) {
+          <span class="hint">Enter – weiter</span>
           <button matButton="filled" type="submit">
             Weiter
             <mat-icon svgIcon="arrow_forward" iconPositionEnd />
           </button>
         } @else {
+          <span class="hint">Enter – prüfen</span>
           <button matButton="filled" type="submit">Prüfen</button>
         }
       </div>

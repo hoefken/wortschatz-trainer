@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { fixtureBase } from '../util/fixture-base';
+import { Navigation } from '../util/pageobjects/navigation';
 import { SAMPLE_COUNT } from '../util/sample-words';
 import { VocabularyPage } from './pageobjects/vocabulary-page';
 import { WordPairDialog } from './pageobjects/word-pair-dialog';
@@ -11,14 +12,16 @@ const test = fixtureBase;
 const WORD_PAIR = { source: 'Bahnhof', target: 'station' };
 
 test.describe('Section "Erfassen"', () => {
+  let navigation: Navigation;
   let vocabularyPage: VocabularyPage;
   let table: WordPairTable;
   let wordPairDialog: WordPairDialog;
 
-  test.beforeEach(async ({ vocabularyPage: page }) => {
-    vocabularyPage = page;
-    table = page.table;
-    wordPairDialog = page.wordPairDialog;
+  test.beforeEach(async ({ navigation: nav, vocabularyPage: vocabulary }) => {
+    navigation = nav;
+    vocabularyPage = vocabulary;
+    table = vocabulary.table;
+    wordPairDialog = vocabulary.wordPairDialog;
   });
 
   test('adds, edits and deletes a word pair', async () => {
@@ -84,7 +87,7 @@ test.describe('Section "Erfassen"', () => {
     });
   });
 
-  test('keeps the word list after a reload', async ({ navigation }) => {
+  test('keeps the word list after a reload', async () => {
     await test.step('add a word pair', async () => {
       await vocabularyPage.addWordPair(WORD_PAIR.source, WORD_PAIR.target);
 

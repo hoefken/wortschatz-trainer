@@ -5,6 +5,8 @@ import { MatTabNavBarHarness } from '@angular/material/tabs/testing';
 import { provideRouter, Router } from '@angular/router';
 import { Layout } from './layout.component';
 import { routes } from '../app.routes';
+import { ExamSession } from '../features/exam/exam-session';
+import { TermService } from '../terms/term.service';
 
 describe('Layout', () => {
   let loader: HarnessLoader;
@@ -38,6 +40,18 @@ describe('Layout', () => {
   it('marks the section of the current route as active', async () => {
     const navBar = await navigateTo('/exam');
 
+    expect(await (await navBar.getActiveLink()).getLabel()).toBe('Prüfung');
+  });
+
+  it('locks Erfassen and Trainieren while an exam runs', async () => {
+    TestBed.inject(TermService).add({ source: 'Haus', target: 'house' });
+    TestBed.inject(ExamSession).start({ limit: 1, passRate: 80 });
+
+    const navBar = await navigateTo('/vocabulary');
+    const links = await navBar.getLinks();
+    const disabled = await Promise.all(links.map(link => link.isDisabled()));
+
+    expect(disabled).toEqual([true, true, false]);
     expect(await (await navBar.getActiveLink()).getLabel()).toBe('Prüfung');
   });
 });

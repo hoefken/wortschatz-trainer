@@ -1,10 +1,12 @@
 import { Component, inject, input } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { MatTabNavPanel, MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ExamSession } from '../../features/exam/exam-session';
 import { TermService } from '../../terms/term.service';
 
 @Component({
-  imports: [RouterLink, RouterLinkActive, MatTabsModule],
+  imports: [MatIcon, MatTabsModule, RouterLink, RouterLinkActive],
   selector: 'loco-nav-bar',
   styleUrl: './nav-bar.component.scss',
   templateUrl: './nav-bar.component.html',
@@ -12,10 +14,12 @@ import { TermService } from '../../terms/term.service';
 export class NavBar {
   readonly tabPanel = input.required<MatTabNavPanel>();
   protected readonly terms = inject(TermService);
+  protected readonly exam = inject(ExamSession);
 
+  // Mirrors the routes guarded by lockedDuringExam, so the tabs show the lock the router enforces.
   protected readonly sections = [
-    { path: 'vocabulary', label: 'Erfassen' },
-    { path: 'training', label: 'Trainieren' },
-    { path: 'exam', label: 'Prüfung' },
+    { path: 'vocabulary', label: 'Erfassen', lockedDuringExam: true },
+    { path: 'training', label: 'Trainieren', lockedDuringExam: true },
+    { path: 'exam', label: 'Prüfung', lockedDuringExam: false },
   ];
 }

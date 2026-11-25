@@ -9,6 +9,7 @@ import checkCircle from '@material-symbols/svg-400/outlined/check_circle-fill.sv
 import close from '@material-symbols/svg-400/outlined/close.svg';
 import deleteIcon from '@material-symbols/svg-400/outlined/delete.svg';
 import edit from '@material-symbols/svg-400/outlined/edit.svg';
+import lock from '@material-symbols/svg-400/outlined/lock.svg';
 import playlistAdd from '@material-symbols/svg-400/outlined/playlist_add.svg';
 import restartAlt from '@material-symbols/svg-400/outlined/restart_alt.svg';
 
@@ -21,6 +22,7 @@ const icons = {
   close,
   delete: deleteIcon,
   edit,
+  lock,
   playlist_add: playlistAdd,
   restart_alt: restartAlt,
 };

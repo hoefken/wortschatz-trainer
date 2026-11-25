@@ -22,3 +22,17 @@
   font: var(--mat-sys-label-large);
   color: var(--mat-sys-on-surface-variant);
 }
+
+[mat-tab-link] mat-icon {
+  width: 16px;
+  height: 16px;
+  margin-inline-end: 4px;
+}
+
+// Material pads tabs with plain CSS (no token); narrower tabs keep all three visible at 360 px
+// even with the lock icons, instead of falling back to scroll arrows.
+[mat-tab-link] {
+  @media (width < 600px) {
+    padding-inline: 12px;
+  }
+}

@@ -6,13 +6,18 @@
 </div>
 <nav mat-tab-nav-bar [tabPanel]="tabPanel()" mat-stretch-tabs="false" aria-label="Bereiche">
   @for (section of sections; track section.path) {
+    @let locked = section.lockedDuringExam && exam.running();
     <a
       mat-tab-link
       [routerLink]="section.path"
       routerLinkActive
       #link="routerLinkActive"
       [active]="link.isActive"
+      [disabled]="locked"
     >
+      @if (locked) {
+        <mat-icon svgIcon="lock" />
+      }
       {{ section.label }}
     </a>
   }

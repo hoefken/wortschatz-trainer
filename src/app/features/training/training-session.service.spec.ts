@@ -14,10 +14,6 @@ describe('TrainingSession', () => {
     session = TestBed.inject(TrainingSession);
   });
 
-  afterEach(() => {
-    random.mockRestore();
-  });
-
   it('has no question without word pairs', () => {
     expect(session.question()).toBeUndefined();
   });
@@ -136,10 +132,6 @@ describe('TrainingSession', () => {
 });
 
 describe('TrainingSession with one direction per session', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it('keeps the direction rolled at the start for every round', () => {
     vi.spyOn(Math, 'random').mockReturnValueOnce(0.7).mockReturnValue(0);
     TestBed.configureTestingModule({

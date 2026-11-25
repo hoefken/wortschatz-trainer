@@ -17,10 +17,6 @@ describe('ExamSession', () => {
     terms.add({ source: 'Zeit', target: 'time' });
   });
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   function answerAll(answer: (solution: string) => string): string[] {
     const asked: string[] = [];
     for (let question = session.question(); question; question = session.question()) {
@@ -110,10 +106,6 @@ describe('ExamSession', () => {
 });
 
 describe('ExamSession with one direction per session', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it('asks every question in the direction rolled at the start', () => {
     vi.spyOn(Math, 'random').mockReturnValueOnce(0.7).mockReturnValue(0);
     TestBed.configureTestingModule({

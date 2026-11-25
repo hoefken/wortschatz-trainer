@@ -35,7 +35,6 @@ describe('WordPairTable', () => {
     const sort = await loader.getHarness(MatSortHarness);
     const [, target] = await sort.getSortHeaders();
     await target.click();
-    return target;
   }
 
   it('labels the columns with the language names', async () => {
@@ -58,8 +57,8 @@ describe('WordPairTable', () => {
   });
 
   it('sorts in both directions', async () => {
-    const target = await sortByTarget();
-    await target.click();
+    await sortByTarget();
+    await sortByTarget();
 
     expect(await column(1)).toEqual(['ärlig', 'äpple', 'tid', 'apa']);
   });

@@ -13,7 +13,6 @@ describe('Layout', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [Layout],
       providers: [provideRouter(routes)],
     });
     loader = TestbedHarnessEnvironment.loader(TestBed.createComponent(Layout));
@@ -43,7 +42,7 @@ describe('Layout', () => {
     expect(await (await navBar.getActiveLink()).getLabel()).toBe('Prüfung');
   });
 
-  it('locks Erfassen and Trainieren while an exam runs', async () => {
+  it('locks Erfassen and Trainieren and stays on Prüfung while an exam runs', async () => {
     TestBed.inject(TermService).add({ source: 'Haus', target: 'house' });
     TestBed.inject(ExamSession).start({ limit: 1, passRate: 80 });
 

@@ -7,6 +7,9 @@ import { ExamPage } from './pageobjects/exam-page';
 
 const test = fixtureBase;
 
+// The reason a screen reader announces on the locked tabs; it doubles as the tooltip text.
+const LOCK_REASON = 'Während einer laufenden Prüfung gesperrt';
+
 test.describe('Section "Prüfung"', () => {
   let navigation: Navigation;
   let domain: Domain;
@@ -101,6 +104,7 @@ test.describe('Section "Prüfung"', () => {
       await test.step('tabs are locked, going back stays in the exam', async () => {
         await expect(navigation.tab('Erfassen')).toBeDisabled();
         await expect(navigation.tab('Trainieren')).toBeDisabled();
+        await expect(navigation.tab('Erfassen')).toHaveAccessibleDescription(LOCK_REASON);
 
         await navigation.goBack();
 

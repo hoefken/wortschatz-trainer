@@ -23,6 +23,13 @@
   color: var(--mat-sys-on-surface-variant);
 }
 
+// Material turns off pointer events on disabled tabs, which would also block the tooltip
+// that explains the lock. A click still bounces off the route guard.
+[mat-tab-link][aria-disabled='true'] {
+  pointer-events: auto;
+  cursor: not-allowed;
+}
+
 [mat-tab-link] mat-icon {
   width: 16px;
   height: 16px;

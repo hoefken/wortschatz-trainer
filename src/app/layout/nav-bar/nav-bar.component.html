@@ -14,6 +14,7 @@
       #link="routerLinkActive"
       [active]="link.isActive"
       [disabled]="locked"
+      [matTooltip]="locked ? lockReason : ''"
     >
       @if (locked) {
         <mat-icon svgIcon="lock" />

@@ -1,9 +1,9 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { DurationPipe } from '../duration.pipe';
-import { ExamResult, ExamSession } from '../exam-session.service';
+import { ExamResult } from '../exam-session.service';
 
 @Component({
   imports: [DurationPipe, MatButton, MatIcon, RouterLink],
@@ -13,6 +13,5 @@ import { ExamResult, ExamSession } from '../exam-session.service';
 })
 export class ExamSummary {
   readonly result = input.required<ExamResult>();
-
-  protected readonly session = inject(ExamSession);
+  readonly restart = output<void>();
 }

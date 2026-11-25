@@ -1,7 +1,7 @@
 @if (session.running()) {
   <loco-exam-question />
 } @else if (session.result(); as result) {
-  <loco-exam-summary [result]="result" />
+  <loco-exam-summary [result]="result" (restart)="session.reset()" />
 } @else {
   <header>
     <h1>Prüfung</h1>

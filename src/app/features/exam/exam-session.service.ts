@@ -77,7 +77,7 @@ export class ExamSession {
     this.exam.set({ questions, answers: [], passRate, startedAt: Date.now() });
   }
 
-  answer(answer: string): void {
+  answer(input: string): void {
     const exam = this.exam();
     const question = this.question();
     if (!exam || !question) {
@@ -85,7 +85,7 @@ export class ExamSession {
     }
     const answers = [
       ...exam.answers,
-      { question, answer: answer.trim(), correct: isSameWord(answer, question.solution) },
+      { question, answer: input.trim(), correct: isSameWord(input, question.solution) },
     ];
     const finished = answers.length === exam.questions.length;
     this.exam.set({ ...exam, answers, finishedAt: finished ? Date.now() : undefined });

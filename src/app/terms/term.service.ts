@@ -58,10 +58,24 @@ export class TermService {
     return this.wordPairs().some(pair => pair.id !== exceptId && isSameWord(pair.source, source));
   }
 
+  shuffledWordPairs(): WordPair[] {
+    return shuffle(this.wordPairs());
+  }
+
   private toTranslations({ source, target }: UnsavedWordPair): Translations {
     return {
       [this.sourceLanguage.code]: source.trim(),
       [this.targetLanguage.code]: target.trim(),
     };
   }
+}
+
+// Fisher-Yates: every order is equally likely, unlike sorting by a random comparator.
+function shuffle<T>(items: readonly T[]): T[] {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 }

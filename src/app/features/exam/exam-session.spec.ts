@@ -1,0 +1,109 @@
+import { TestBed } from '@angular/core/testing';
+import { TermService } from '../../terms/term.service';
+import { ExamSession, requiredCorrect } from './exam-session';
+
+describe('ExamSession', () => {
+  let terms: TermService;
+  let session: ExamSession;
+  let random: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    random = vi.spyOn(Math, 'random').mockReturnValue(0);
+    terms = TestBed.inject(TermService);
+    session = TestBed.inject(ExamSession);
+    terms.add({ source: 'Haus', target: 'house' });
+    terms.add({ source: 'Baum', target: 'tree' });
+    terms.add({ source: 'Zeit', target: 'time' });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  function answerAll(answer: (solution: string) => string): string[] {
+    const asked: string[] = [];
+    for (let question = session.question(); question; question = session.question()) {
+      asked.push(question.word);
+      session.answer(answer(question.solution));
+    }
+    return asked;
+  }
+
+  it('is not running before the start', () => {
+    expect(session.running()).toBe(false);
+    expect(session.question()).toBeUndefined();
+    expect(session.result()).toBeUndefined();
+  });
+
+  it('asks every word pair exactly once', () => {
+    session.start({ limit: 3, passRate: 80 });
+
+    expect(session.running()).toBe(true);
+    expect(answerAll(solution => solution).sort()).toEqual(['Baum', 'Haus', 'Zeit']);
+  });
+
+  it('asks only the chosen number of words', () => {
+    session.start({ limit: 2, passRate: 80 });
+
+    expect(session.total()).toBe(2);
+    expect(answerAll(solution => solution)).toHaveLength(2);
+  });
+
+  it('asks from the target language when the direction roll is high', () => {
+    random.mockReturnValue(0.7);
+    session.start({ limit: 3, passRate: 80 });
+
+    expect(session.question()?.from).toBe(terms.targetLanguage);
+  });
+
+  it('counts the position and stops after the last answer', () => {
+    session.start({ limit: 3, passRate: 80 });
+    session.answer('x');
+
+    expect(session.position()).toBe(2);
+
+    answerAll(() => 'x');
+
+    expect(session.running()).toBe(false);
+    expect(session.question()).toBeUndefined();
+  });
+
+  it('passes when enough answers are right, ignoring case and spaces', () => {
+    vi.spyOn(Date, 'now').mockReturnValueOnce(1_000).mockReturnValueOnce(162_000);
+    session.start({ limit: 3, passRate: 60 });
+    let index = 0;
+    answerAll(solution => (index++ < 2 ? ` ${solution.toUpperCase()} ` : ''));
+
+    expect(session.result()).toEqual({
+      total: 3,
+      correct: 2,
+      wrong: 1,
+      rate: 67,
+      passRate: 60,
+      passed: true,
+      mistakes: [expect.objectContaining({ answer: '', correct: false })],
+      duration: 161_000,
+    });
+  });
+
+  it('fails below the pass rate', () => {
+    session.start({ limit: 3, passRate: 80 });
+    let index = 0;
+    answerAll(solution => (index++ < 2 ? solution : 'x'));
+
+    expect(session.result()?.passed).toBe(false);
+  });
+
+  it('goes back to the settings on reset', () => {
+    session.start({ limit: 3, passRate: 80 });
+    session.reset();
+
+    expect(session.running()).toBe(false);
+    expect(session.result()).toBeUndefined();
+  });
+
+  it('rounds the required number of right answers up', () => {
+    expect(requiredCorrect(9, 80)).toBe(8);
+    expect(requiredCorrect(10, 70)).toBe(7);
+  });
+});
